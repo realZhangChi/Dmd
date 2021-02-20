@@ -31,13 +31,13 @@ namespace Dmd.CodeGenerator.CodeWriters
             return this;
         }
 
-        public IndentedCodeBuilder IncrementIndent()
+        protected IndentedCodeBuilder IncrementIndent()
         {
             _indentedTextWriter.Indent++;
             return this;
         }
 
-        public IndentedCodeBuilder DecrementIndent()
+        protected IndentedCodeBuilder DecrementIndent()
         {
             _indentedTextWriter.Indent--;
             return this;
@@ -53,17 +53,17 @@ namespace Dmd.CodeGenerator.CodeWriters
 
         private sealed class Indenter : IDisposable
         {
-            private readonly IndentedCodeBuilder _stringBuilder;
+            private readonly IndentedCodeBuilder _codeBuilder;
 
             public Indenter(IndentedCodeBuilder stringBuilder)
             {
-                _stringBuilder = stringBuilder;
+                _codeBuilder = stringBuilder;
 
-                _stringBuilder.IncrementIndent();
+                _codeBuilder.IncrementIndent();
             }
 
             public void Dispose()
-                => _stringBuilder.DecrementIndent();
+                => _codeBuilder.DecrementIndent();
         }
     }
 }

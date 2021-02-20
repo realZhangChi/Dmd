@@ -4,6 +4,8 @@
     {
         private readonly CodeGeneratorOptions _codeGeneratorOptions;
 
+        public CodeGeneratorOptions Options => _codeGeneratorOptions;
+
         public string Namespace
         {
             get => _codeGeneratorOptions.GetOrDefault<string>(ClassOptionNames.Namespace);

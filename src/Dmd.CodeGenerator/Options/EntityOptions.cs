@@ -2,8 +2,14 @@
 {
     public class EntityOptions : ClassOptions
     {
-        public EntityOptions(CodeGeneratorOptions codeGeneratorOptions)
-            : base(codeGeneratorOptions)
+        public EntityOptions()
+            : base(new CodeGeneratorOptions())
+        {
+
+        }
+
+        public EntityOptions(CodeGeneratorOptions options)
+            : base(options)
         {
 
         }

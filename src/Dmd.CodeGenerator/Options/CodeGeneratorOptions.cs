@@ -6,11 +6,11 @@ using Volo.Abp;
 
 namespace Dmd.CodeGenerator.Options
 {
-    public abstract class CodeGeneratorOptions
+    public class CodeGeneratorOptions
     {
         private readonly Dictionary<string, object> _properties;
 
-        protected CodeGeneratorOptions()
+        internal CodeGeneratorOptions()
         {
             _properties = new Dictionary<string, object>();
         }
