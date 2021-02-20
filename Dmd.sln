@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1E73786F-3390-486A-B3F9-705B7AF6466C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dmd.CodeGenerator", "src\Dmd.CodeGenerator\Dmd.CodeGenerator.csproj", "{0020557E-F0E0-4912-B440-77E9ADEA717E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dmd.CodeGenerator", "src\Dmd.CodeGenerator\Dmd.CodeGenerator.csproj", "{0020557E-F0E0-4912-B440-77E9ADEA717E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{43B2A42E-B102-4034-93F3-9D99B40444A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dmd.CodeGenerator.Test", "test\Dmd.CodeGenerator.Test\Dmd.CodeGenerator.Test.csproj", "{51DF42AE-F803-427A-A934-6B61A64ECA2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +21,17 @@ Global
 		{0020557E-F0E0-4912-B440-77E9ADEA717E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0020557E-F0E0-4912-B440-77E9ADEA717E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0020557E-F0E0-4912-B440-77E9ADEA717E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51DF42AE-F803-427A-A934-6B61A64ECA2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51DF42AE-F803-427A-A934-6B61A64ECA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51DF42AE-F803-427A-A934-6B61A64ECA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51DF42AE-F803-427A-A934-6B61A64ECA2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0020557E-F0E0-4912-B440-77E9ADEA717E} = {1E73786F-3390-486A-B3F9-705B7AF6466C}
+		{51DF42AE-F803-427A-A934-6B61A64ECA2E} = {43B2A42E-B102-4034-93F3-9D99B40444A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0622CE50-FAB5-43DC-AA29-6149823E903A}
