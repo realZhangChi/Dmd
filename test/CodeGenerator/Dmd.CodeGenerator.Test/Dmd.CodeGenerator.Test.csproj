@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Dmd.CodeGenerator\Dmd.CodeGenerator.csproj" />
+    <ProjectReference Include="..\..\..\src\CodeGenerator\Dmd.CodeGenerator\Dmd.CodeGenerator.csproj" />
   </ItemGroup>
 
 </Project>

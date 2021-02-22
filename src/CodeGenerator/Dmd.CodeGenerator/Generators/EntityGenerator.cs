@@ -43,7 +43,7 @@ namespace Dmd.CodeGenerator.Generators
             {
                 Directory.CreateDirectory(directory);
             }
-            File.WriteAllText(Path.GetFullPath(path), content);
+            await File.WriteAllTextAsync(Path.GetFullPath(path), content);
         }
 
         private async Task GenerateClass()
