@@ -40,7 +40,7 @@ namespace Dmd.Designer.Components
                 "import", "./_content/Dmd.Designer.Components/canvas.js").AsTask());
 
             var js = await _jsTask.Value;
-            await js.InvokeAsync<string>("showPrompt", Id);
+            await js.InvokeAsync<string>("init", Id);
         }
 
     }
