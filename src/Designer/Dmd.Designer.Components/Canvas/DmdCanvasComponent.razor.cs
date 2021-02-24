@@ -38,6 +38,49 @@ namespace Dmd.Designer.Components.Canvas
 
             var js = await _jsTask.Value;
             await js.InvokeAsync<string>("init", Id);
+            await js.InvokeAsync<string>("addClass", 
+                new object[]
+                { 
+                    "User",
+                    new string[]
+                    {
+                        "Id",
+                        "Name",
+                        "Sex",
+                        "Age"
+                    },
+                    new string[]
+                    {
+                        "SetName()",
+                        "SetAge()"
+                    },
+                    new double[]
+                    {
+                        100,
+                        100
+                    }
+                });
+            await js.InvokeAsync<string>("addClass",
+                new object[]
+                {
+                    "Product",
+                    new string[]
+                    {
+                        "Id",
+                        "Name",
+                        "Price"
+                    },
+                    new string[]
+                    {
+                        "SetName()",
+                        "SetPrice()"
+                    },
+                    new double[]
+                    {
+                        300,
+                        300
+                    }
+                });
         }
 
     }
