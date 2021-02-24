@@ -6,13 +6,61 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
-<DmdCanvasComponent Width="1600" Height="800"></DmdCanvasComponent>
+<DmdCanvasComponent Width="1600" Height="800" @ref="dmdCanvasComponent"></DmdCanvasComponent>
 
 @code {
+    private DmdCanvasComponent dmdCanvasComponent;
+    private DmdCanvasContext dmdCanvasContext;
     private int currentCount = 0;
 
-    private void IncrementCount()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Task.Run(() =>
+        {
+            dmdCanvasContext = dmdCanvasComponent.Context();
+        });
+    }
+
+    private async Task IncrementCount()
     {
         currentCount++;
+
+        await dmdCanvasContext.AddClassComponentAsync(
+            "User",
+            new string[]
+            {
+                "Id",
+                "Name",
+                "Sex",
+                "Age"
+                },
+            new string[]
+            {
+                "SetName()",
+                "SetAge()"
+                },
+            new double[]
+            {
+                100,
+                100
+                });
+        await dmdCanvasContext.AddClassComponentAsync(
+            "Product",
+            new string[]
+            {
+                "Id",
+                "Name",
+                "Price"
+                },
+            new string[]
+            {
+                "SetName()",
+                "SetPrice()"
+                },
+            new double[]
+            {
+                300,
+                300
+                });
     }
 }

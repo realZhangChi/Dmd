@@ -16,11 +16,9 @@ namespace Dmd.Designer.Components.Canvas
 
         protected readonly string Id;
 
-        private Lazy<Task<IJSObjectReference>> _jsTask;
+        public readonly Lazy<Task<IJSObjectReference>> JsTask;
 
-        protected ElementReference CanvasRef;
-
-        public ElementReference CanvasReference => CanvasRef;
+        public ElementReference CanvasReference;
 
         [Inject]
         private IJSRuntime JsRuntime { get; set; }
@@ -28,59 +26,15 @@ namespace Dmd.Designer.Components.Canvas
         public DmdCanvasComponent()
         {
             Id = Guid.NewGuid().ToString();
+            JsTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Dmd.Designer.Components/canvas.js").AsTask());
         }
-
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            _jsTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/Dmd.Designer.Components/canvas.js").AsTask());
 
-            var js = await _jsTask.Value;
+            var js = await JsTask.Value;
             await js.InvokeAsync<string>("init", Id);
-            await js.InvokeAsync<string>("addClass", 
-                new object[]
-                { 
-                    "User",
-                    new string[]
-                    {
-                        "Id",
-                        "Name",
-                        "Sex",
-                        "Age"
-                    },
-                    new string[]
-                    {
-                        "SetName()",
-                        "SetAge()"
-                    },
-                    new double[]
-                    {
-                        100,
-                        100
-                    }
-                });
-            await js.InvokeAsync<string>("addClass",
-                new object[]
-                {
-                    "Product",
-                    new string[]
-                    {
-                        "Id",
-                        "Name",
-                        "Price"
-                    },
-                    new string[]
-                    {
-                        "SetName()",
-                        "SetPrice()"
-                    },
-                    new double[]
-                    {
-                        300,
-                        300
-                    }
-                });
         }
 
     }
