@@ -14,7 +14,7 @@ export function init(id) {
             strokeWidth = 2;
         }
         let line = new fabric.Line([x, -50000, x, 50000], {
-            stroke: 'rgba(211,211,211,1)',
+            stroke: 'rgba(240,248,255,1)',
             strokeWidth: strokeWidth,
             selectable: false
         });
@@ -26,15 +26,32 @@ export function init(id) {
             strokeWidth = 2;
         }
         let line = new fabric.Line([-50000, y, 50000, y], {
-            stroke: 'rgba(211,211,211,1)',
+            stroke: 'rgba(240,248,255,1)',
             strokeWidth: strokeWidth,
             selectable: false
         });
         canvas.add(line);
     }
-    canvas.add(new fabric.Rect({ width: 50, height: 50, fill: 'blue', angle: 0 }));
 
-    canvas.on('mouse:down', function(opt) {
+    var labeledRect = new fabric.CustomGroup({
+        entityName: 'User',
+        properties: ['Id: Guid', 'Name: string'],
+        methods: ['string GetName()', 'string SetName()']
+    });
+    labeledRect.setControlsVisibility({
+        mt: false,
+        mb: false,
+        ml: false,
+        mr: false,
+        bl: false,
+        br: false,
+        tl: false,
+        tr: false,
+        mtr: false,
+    });
+    canvas.add(labeledRect);
+
+    canvas.on('mouse:down', function (opt) {
         var evt = opt.e;
         if (evt.altKey === true) {
             this.isDragging = true;
@@ -44,7 +61,7 @@ export function init(id) {
         }
     });
 
-    canvas.on('mouse:move', function(opt) {
+    canvas.on('mouse:move', function (opt) {
         if (this.isDragging) {
             var e = opt.e;
             var vpt = this.viewportTransform;
@@ -56,7 +73,7 @@ export function init(id) {
         }
     });
 
-    canvas.on('mouse:up', function(opt) {
+    canvas.on('mouse:up', function (opt) {
         // on mouse up we want to recalculate new interaction
         // for all objects, so we call setViewportTransform
         this.setViewportTransform(this.viewportTransform);
@@ -76,3 +93,4 @@ export function init(id) {
             opt.e.stopPropagation();
         });
 }
+
