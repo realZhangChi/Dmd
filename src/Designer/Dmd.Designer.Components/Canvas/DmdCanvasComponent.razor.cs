@@ -16,7 +16,7 @@ namespace Dmd.Designer.Components.Canvas
 
         protected readonly string Id;
 
-        public readonly Lazy<Task<IJSObjectReference>> JsTask;
+        public Lazy<Task<IJSObjectReference>> JsTask;
 
         public ElementReference CanvasReference;
 
@@ -26,15 +26,19 @@ namespace Dmd.Designer.Components.Canvas
         public DmdCanvasComponent()
         {
             Id = Guid.NewGuid().ToString();
-            JsTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/Dmd.Designer.Components/canvas.js").AsTask());
         }
+
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            if (firstRender)
+            {
+                JsTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>(
+                    "import", "./_content/Dmd.Designer.Components/canvas.js").AsTask());
 
-            var js = await JsTask.Value;
-            await js.InvokeAsync<string>("init", Id);
+                var js = await JsTask.Value;
+                await js.InvokeAsync<string>("init", Id);
+            }
         }
 
     }
