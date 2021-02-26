@@ -114,13 +114,13 @@ fabric.ClassComponent = fabric.util.createClass(fabric.Group, {
         var partialSpacing = 6;
         var partQuantity = 3;
         var innerOptions = {};
-        innerOptions.left = options.left;
-        innerOptions.top = options.top;
         innerOptions.shadow = { color: "rgba(0, 0, 0, 0.3)", blur: 20, offsetX: 5, offsetY: 5 };
         innerOptions.width = 180;
         innerOptions.height = nameHeight +
             (this.properties.length + this.methods.length) * itemHeight +
             (partQuantity - 1) * partialSpacing;
+        innerOptions.left = options.left - innerOptions.width / 2;
+        innerOptions.top = options.top - innerOptions.height / 2;
 
         var objects = [];
 

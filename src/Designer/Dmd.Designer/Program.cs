@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using Dmd.Designer.Services;
 
 namespace Dmd.Designer
 {
@@ -29,6 +30,7 @@ namespace Dmd.Designer
                 .AddFontAwesomeIcons();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped<IBrowserService, BrowserService>();
             
             var host = builder.Build();
 

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Blazorise;
 using Dmd.Designer.Components.Canvas;
 using Dmd.Designer.Models;
+using Dmd.Designer.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace Dmd.Designer.Pages
 {
@@ -15,9 +17,23 @@ namespace Dmd.Designer.Pages
         private Modal _addNewModalRef;
         private ClassModel _newClassModel;
 
+        private double windowWidth;
+        private double windowHeight;
+
+        [Inject]
+        private IBrowserService BrowserService { get; set; }
+
         public Index()
         {
             _newClassModel = new ClassModel();
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            var dimensions = await BrowserService.GetDimensionsAsync();
+            windowHeight = dimensions.Height;
+            windowWidth = dimensions.Width;
+            await base.OnInitializedAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -26,47 +42,6 @@ namespace Dmd.Designer.Pages
             {
                 _dmdCanvasContext = _dmdCanvasComponent.Context();
             });
-        }
-
-        private async Task AddEntityAsync()
-        {
-            await _dmdCanvasContext.AddClassComponentAsync(
-                "User",
-                new string[]
-                {
-                    "Id",
-                    "Name",
-                    "Sex",
-                    "Age"
-                },
-                new string[]
-                {
-                    "SetName()",
-                    "SetAge()"
-                },
-                new double[]
-                {
-                    100,
-                    100
-                });
-            await _dmdCanvasContext.AddClassComponentAsync(
-                "Product",
-                new string[]
-                {
-                    "Id",
-                    "Name",
-                    "Price"
-                },
-                new string[]
-                {
-                    "SetName()",
-                    "SetPrice()"
-                },
-                new double[]
-                {
-                    300,
-                    300
-                });
         }
 
         private void ShowAddNewModal()
@@ -92,10 +67,10 @@ namespace Dmd.Designer.Pages
                 {
                     _newClassModel.Methods
                 },
-                new double[]
+                new []
                 {
-                    100,
-                    100
+                    windowWidth / 2,
+                    windowHeight / 2
                 });
             _addNewModalRef.Hide();
         }

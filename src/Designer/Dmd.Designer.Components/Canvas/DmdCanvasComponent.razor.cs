@@ -9,10 +9,10 @@ namespace Dmd.Designer.Components.Canvas
     {
 
         [Parameter]
-        public long Height { get; set; }
+        public double Height { get; set; }
 
         [Parameter]
-        public long Width { get; set; }
+        public double Width { get; set; }
 
         protected readonly string Id;
 
