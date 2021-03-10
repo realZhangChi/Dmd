@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using Dmd.CodeGenerator.CodeGenerators;
 using Shouldly;
 using Dmd.CodeGenerator.Generators;
 using Dmd.CodeGenerator.Options;
@@ -22,6 +23,22 @@ namespace Dmd.CodeGenerator.Test
             await generator.Generate(entityOptions.Options);
             var result = File.Exists(@"C:\Users\Chi\source\repos\Dmd\Generated\TestEntity.cs");
             result.ShouldBeTrue();
+        }
+
+        [Fact]
+        public void CodeGeneratorTest()
+        {
+            var generator = new DmdCodeGenerator();
+            var code = generator.GenerateClass();
+            code.ShouldNotBeNullOrWhiteSpace();
+        }
+
+        [Fact]
+        public void Compile()
+        {
+            var generator = new DmdCodeGenerator();
+            var unit = generator.Compile();
+            unit.ShouldNotBeNull();
         }
     }
 }
