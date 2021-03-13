@@ -1,0 +1,17 @@
+﻿{
+  "Namespace": "Generated.Test",
+  "Directory": null,
+  "Name": "TestClass",
+  "BaseClass": null,
+  "ClassType": 0,
+  "Properties": [
+    {
+      "Name": "Property1",
+      "Type": "int"
+    },
+    {
+      "Name": "Property2",
+      "Type": "string"
+    }
+  ]
+}

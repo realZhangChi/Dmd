@@ -1,41 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using JetBrains.Annotations;
-using Volo.Abp;
+﻿using System.Collections.Generic;
 
 namespace Dmd.CodeGenerator.Options
 {
-    public class CodeGeneratorOptions
+    public abstract class CodeGeneratorOptions
     {
-        private readonly Dictionary<string, object> _properties;
 
-        internal CodeGeneratorOptions()
-        {
-            _properties = new Dictionary<string, object>();
-        }
+        public string Namespace { get; set; }
 
-        [CanBeNull]
-        public T GetOrDefault<T>(string name, T defaultValue = default)
-        {
-            return (T)GetOrNull(name, defaultValue);
-        }
+        public string Directory { get; set; }
 
-        private object GetOrNull(string name, object defaultValue = null)
-        {
-            return _properties.GetOrDefault(name) ??
-                   defaultValue;
-        }
+        public string Name { get; set; }
 
-        [NotNull]
-        public CodeGeneratorOptions Set([NotNull] string name, [CanBeNull] object value)
-        {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-            Check.NotNull(value, nameof(value));
+        public string BaseClass { get; set; }
 
-            _properties[name] = value;
+        public ClassType ClassType { get; set; }
 
-            return this;
-        }
+        public ICollection<PropertyOptions> Properties { get; set; }
+
     }
 }

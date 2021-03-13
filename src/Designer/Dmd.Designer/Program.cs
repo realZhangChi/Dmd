@@ -34,9 +34,9 @@ namespace Dmd.Designer
             
             var host = builder.Build();
 
-            host.Services
-                .UseBootstrapProviders()
-                .UseFontAwesomeIcons();
+            //host.Services
+            //    .UseBootstrapProviders()
+            //    .UseFontAwesomeIcons();
 
             await host.RunAsync();
         }

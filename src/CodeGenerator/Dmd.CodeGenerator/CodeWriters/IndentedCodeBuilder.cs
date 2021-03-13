@@ -2,12 +2,10 @@
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
-using Volo.Abp.DependencyInjection;
 
 namespace Dmd.CodeGenerator.CodeWriters
 {
-    public class IndentedCodeBuilder : ITransientDependency
+    public class IndentedCodeBuilder
     {
         private readonly StringWriter _stringWriter;
 
@@ -19,7 +17,7 @@ namespace Dmd.CodeGenerator.CodeWriters
             _indentedTextWriter = new IndentedTextWriter(_stringWriter);
         }
 
-        public async Task<IndentedCodeBuilder> AppendLineAsync([NotNull] string value)
+        public async Task<IndentedCodeBuilder> AppendLineAsync(string value)
         {
             await _indentedTextWriter.WriteLineAsync(value);
             return this;

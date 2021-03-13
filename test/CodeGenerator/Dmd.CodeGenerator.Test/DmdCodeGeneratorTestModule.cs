@@ -7,8 +7,7 @@ using Volo.Abp;
 namespace Dmd.CodeGenerator.Test
 {
     [DependsOn(
-        typeof(AbpTestBaseModule),
-        typeof(DmdCodeGeneratorModule)
+        typeof(AbpTestBaseModule)
         )]
     public class DmdCodeGeneratorTestModule : AbpModule
     {

@@ -1,11 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
-using Dmd.CodeGenerator.CodeGenerators;
+﻿using System.Collections.Generic;
+using System.Text.Json;
 using Shouldly;
-using Dmd.CodeGenerator.Generators;
-using Dmd.CodeGenerator.Options;
 using Xunit;
 
 namespace Dmd.CodeGenerator.Test
@@ -13,32 +8,36 @@ namespace Dmd.CodeGenerator.Test
     public class Entity_Generator_Test : DmdCodeGeneratorTestBase
     {
         [Fact]
-        public async void Shoud_Exists_Genereted_Entity()
+        public void Shoud_Exists_Genereted_Entity()
         {
-            var generator = GetRequiredService<IEntityGenerator>();
-            var entityOptions = new EntityOptions();
-            entityOptions.Name = "TestEntity";
-            entityOptions.Namespace = "Generated";
-            entityOptions.Directory = @"C:\Users\Chi\source\repos\Dmd\Generated";
-            await generator.Generate(entityOptions.Options);
-            var result = File.Exists(@"C:\Users\Chi\source\repos\Dmd\Generated\TestEntity.cs");
-            result.ShouldBeTrue();
-        }
+            HelloWorldGenerated.HelloWorld.SayHello();
+            //var option = new ClassOptions()
+            //{
+            //    Name = "TestClass",
+            //    Namespace = "Generated.Test",
+            //    Properties = new List<PropertyOptions>()
+            //    {
+            //        new()
+            //        {
+            //            Name = "Property1",
+            //            Type = "int"
+            //        },
+            //        new()
+            //        {
+            //            Name = "Property2",
+            //            Type = "string"
+            //        }
+            //    }
+            //};
 
-        [Fact]
-        public void CodeGeneratorTest()
-        {
-            var generator = new DmdCodeGenerator();
-            var code = generator.GenerateClass();
-            code.ShouldNotBeNullOrWhiteSpace();
-        }
+            //var json = JsonSerializer.Serialize(option);
+            ////json.ShouldNotBeNullOrWhiteSpace();
 
-        [Fact]
-        public void Compile()
-        {
-            var generator = new DmdCodeGenerator();
-            var unit = generator.Compile();
-            unit.ShouldNotBeNull();
+            //var generator = new Generators.CodeGenerator(new IndentedCodeBuilder());
+            //var code = await generator.GenerateAsync(option);
+            //code.ShouldNotBeNullOrWhiteSpace();
+            ////var testEntity = new TestEntity();
         }
+        
     }
 }

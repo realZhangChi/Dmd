@@ -17,9 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeGenerator", "CodeGenera
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dmd.CodeGenerator", "src\CodeGenerator\Dmd.CodeGenerator\Dmd.CodeGenerator.csproj", "{9743B4E7-F13F-4169-AD50-4A134E4FB638}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dmd.Designer", "src\Designer\Dmd.Designer\Dmd.Designer.csproj", "{301540D5-BFFB-4483-841B-468645C8C86C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dmd.Designer", "src\Designer\Dmd.Designer\Dmd.Designer.csproj", "{301540D5-BFFB-4483-841B-468645C8C86C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dmd.Designer.Components", "src\Designer\Dmd.Designer.Components\Dmd.Designer.Components.csproj", "{9D34FFCC-BCFD-4B38-8F4E-F5EFF5AD5ECF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dmd.Designer.Components", "src\Designer\Dmd.Designer.Components\Dmd.Designer.Components.csproj", "{9D34FFCC-BCFD-4B38-8F4E-F5EFF5AD5ECF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{6D1CACFD-4088-487A-AE2F-EDE3BC9F0D40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
