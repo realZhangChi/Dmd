@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Dmd.CodeGenerator.CodeWriters;
+using Dmd.CodeGenerator.CodeBuilders;
 using Dmd.CodeGenerator.Options;
 
 namespace Dmd.CodeGenerator.Generators
@@ -9,54 +9,52 @@ namespace Dmd.CodeGenerator.Generators
     public class CodeGenerator : ICodeGenerator
     {
         private readonly IndentedCodeBuilder _codeBuilder;
-        private CodeGeneratorOptions _options;
 
-        public CodeGenerator(IndentedCodeBuilder codeBuilder)
+        public CodeGenerator()
         {
-            _codeBuilder = codeBuilder;
+            _codeBuilder = new IndentedCodeBuilder();
         }
 
-        public async Task<string> GenerateAsync(CodeGeneratorOptions options)
+        public string Generate(CodeGeneratorOptions options)
         {
-            _options = options;
+            _codeBuilder.AppendLine($"//{DateTime.Now}");
+            _codeBuilder.AppendLine("using System;");
+            _codeBuilder.AppendLine("using System.Collections.Generic;");
+            _codeBuilder.AppendLine();
 
-            await _codeBuilder.AppendLineAsync("using System;");
-            await _codeBuilder.AppendLineAsync("using System.Collections.Generic;");
-            await _codeBuilder.AppendLineAsync();
-
-            await _codeBuilder.AppendLineAsync($"namespace {_options.Namespace}");
-            await _codeBuilder.AppendLineAsync("{");
+            _codeBuilder.AppendLine($"namespace {options.Namespace}");
+            _codeBuilder.AppendLine("{");
 
             using (_codeBuilder.Indent())
             {
-                await GenerateInternalAsync();
+                GenerateInternal(options);
             }
 
-            await _codeBuilder.AppendLineAsync("}");
+            _codeBuilder.AppendLine("}");
             var content = _codeBuilder.ToString();
 
             return content;
         }
 
-        private async Task GenerateInternalAsync()
+        private void GenerateInternal(CodeGeneratorOptions options)
         {
-            await _codeBuilder.AppendLineAsync($"public partial {_options.ClassType.ToString("G").ToLower()} {_options.Name}");
-            await _codeBuilder.AppendLineAsync("{");
+            _codeBuilder.AppendLine($"public partial {options.ClassType.ToString("G").ToLower()} {options.Name}");
+            _codeBuilder.AppendLine("{");
 
             using (_codeBuilder.Indent())
             {
-                await GeneratePropertiesAsync(_options);
+                GenerateProperties(options);
             }
 
-            await _codeBuilder.AppendLineAsync("}");
+            _codeBuilder.AppendLine("}");
         }
 
-        private async Task GeneratePropertiesAsync(CodeGeneratorOptions options)
+        private void GenerateProperties(CodeGeneratorOptions options)
         {
             foreach (var property in options.Properties)
             {
-                await _codeBuilder.AppendLineAsync($"public {property.Type} {property.Name} " + "{ get; set; }");
-                await _codeBuilder.AppendLineAsync();
+                _codeBuilder.AppendLine($"public {property.Type} {property.Name} " + "{ get; set; }");
+                _codeBuilder.AppendLine();
             }
         }
     }

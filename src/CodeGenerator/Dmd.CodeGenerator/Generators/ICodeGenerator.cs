@@ -5,6 +5,6 @@ namespace Dmd.CodeGenerator.Generators
 {
     public interface ICodeGenerator
     {
-        Task<string> GenerateAsync(CodeGeneratorOptions options);
+        string Generate(CodeGeneratorOptions options);
     }
 }

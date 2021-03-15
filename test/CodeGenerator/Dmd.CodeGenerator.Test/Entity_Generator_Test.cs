@@ -10,7 +10,8 @@ namespace Dmd.CodeGenerator.Test
         [Fact]
         public void Shoud_Exists_Genereted_Entity()
         {
-            HelloWorldGenerated.HelloWorld.SayHello();
+
+            //HelloWorldGenerated.HelloWorld.SayHello();
             //var option = new ClassOptions()
             //{
             //    Name = "TestClass",
@@ -34,7 +35,7 @@ namespace Dmd.CodeGenerator.Test
             ////json.ShouldNotBeNullOrWhiteSpace();
 
             //var generator = new Generators.CodeGenerator(new IndentedCodeBuilder());
-            //var code = await generator.GenerateAsync(option);
+            //var code = await generator.Generate(option);
             //code.ShouldNotBeNullOrWhiteSpace();
             ////var testEntity = new TestEntity();
         }
