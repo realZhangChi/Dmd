@@ -2,7 +2,10 @@
   "Namespace": "Generated.Test",
   "Directory": null,
   "Name": "TestClass",
-  "BaseClass": null,
+  "BaseClass": "Object",
+  "BaseInterfaces": [
+    "IDisposable"
+  ],
   "ClassType": 0,
   "Properties": [
     {
@@ -11,7 +14,17 @@
     },
     {
       "Name": "Property2",
-      "Type": "string"
+      "Type": "string",
+      "Attributes": [
+        {
+          "Name": "System.ComponentModel.DataAnnotations.RequiredAttribute",
+          "Parameters": null
+        },
+        {
+          "Name": "System.ComponentModel.DataAnnotations.StringLengthAttribute",
+          "Parameters": [ 10 ]
+        }
+      ]
     }
   ]
 }

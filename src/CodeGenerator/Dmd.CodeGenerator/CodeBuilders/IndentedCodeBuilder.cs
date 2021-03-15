@@ -11,6 +11,8 @@ namespace Dmd.CodeGenerator.CodeBuilders
 
         private int _indent;
 
+        public int Length => _stringBuilder.Length;
+
         public IndentedCodeBuilder()
         {
             _stringBuilder = new StringBuilder();
@@ -25,10 +27,16 @@ namespace Dmd.CodeGenerator.CodeBuilders
 
         public IndentedCodeBuilder AppendLine()
         {
-            AppendLine(string.Empty);
+            _stringBuilder.AppendLine();
             return this;
         }
 
+        public IndentedCodeBuilder Remove(int startIndex, int length)
+        {
+            _stringBuilder.Remove(startIndex, length);
+            return this;
+        }
+        
         private IndentedCodeBuilder IncrementIndent()
         {
             _indent++;

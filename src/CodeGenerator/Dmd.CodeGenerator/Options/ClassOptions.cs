@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Dmd.CodeGenerator.Options
 {
-    public class ClassOptions : CodeGeneratorOptions
+    public class ClassOptions : CodeOptions
     {
         public ClassOptions()
         {

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Dmd.CodeGenerator.Options
 {
-    public abstract class CodeGeneratorOptions
+    public abstract class CodeOptions
     {
 
         public string Namespace { get; set; }
@@ -13,9 +14,17 @@ namespace Dmd.CodeGenerator.Options
 
         public string BaseClass { get; set; }
 
+        public ICollection<string> BaseInterfaces { get; set; }
+
         public ClassType ClassType { get; set; }
 
         public ICollection<PropertyOptions> Properties { get; set; }
+
+        protected CodeOptions()
+        {
+            BaseInterfaces = new List<string>();
+            Properties = new List<PropertyOptions>();
+        }
 
     }
 }

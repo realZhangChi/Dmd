@@ -7,7 +7,9 @@ namespace SourceGeneratorSample
         static void Main(string[] args)
         {
             //HelloWorldGenerate
-            //Generated.Test.TestClass
+            var a = new Generated.Test.TestClass();
+            a.Property2 = "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
+            a.Property1 = Int32.MaxValue;
             Console.WriteLine("Hello World!");
         }
     }
