@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Dmd.CodeGenerator.Options
 {
-    public enum ClassType
+    public enum CodeType
     {
         Class,
         Interface,

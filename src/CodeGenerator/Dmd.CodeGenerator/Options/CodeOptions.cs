@@ -5,6 +5,7 @@ namespace Dmd.CodeGenerator.Options
 {
     public abstract class CodeOptions
     {
+        public ICollection<string> Imports { get; set; }
 
         public string Namespace { get; set; }
 
@@ -16,7 +17,7 @@ namespace Dmd.CodeGenerator.Options
 
         public ICollection<string> BaseInterfaces { get; set; }
 
-        public ClassType ClassType { get; set; }
+        public CodeType CodeType { get; set; }
 
         public ICollection<PropertyOptions> Properties { get; set; }
 

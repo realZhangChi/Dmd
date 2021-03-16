@@ -1,4 +1,9 @@
 ﻿{
+  "Imports": [
+    "System",
+    "System.Collections.Generic",
+    "System.ComponentModel.DataAnnotations"
+  ],
   "Namespace": "Generated.Test",
   "Directory": null,
   "Name": "TestClass",
@@ -6,22 +11,26 @@
   "BaseInterfaces": [
     "IDisposable"
   ],
-  "ClassType": 0,
+  "CodeType": 0,
   "Properties": [
     {
+      "AccessLevel": "public",
       "Name": "Property1",
-      "Type": "int"
+      "Type": "int",
+      "SetAccessLevel": "private"
     },
     {
+      "AccessLevel": "protected",
       "Name": "Property2",
       "Type": "string",
+      "GetAccessLevel": "public",
       "Attributes": [
         {
-          "Name": "System.ComponentModel.DataAnnotations.RequiredAttribute",
+          "Name": "Required",
           "Parameters": null
         },
         {
-          "Name": "System.ComponentModel.DataAnnotations.StringLengthAttribute",
+          "Name": "StringLength",
           "Parameters": [ 10 ]
         }
       ]

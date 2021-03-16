@@ -19,17 +19,14 @@ namespace Dmd.CodeGenerator.Generators
 
         public string Generate(CodeOptions options)
         {
-            _codeBuilder.AppendLine($"//{DateTime.Now}");
-            _codeBuilder.AppendLine("using System;");
-            _codeBuilder.AppendLine("using System.Collections.Generic;");
-            _codeBuilder.AppendLine();
+            GenerateImports(options);
 
             _codeBuilder.AppendLine($"namespace {options.Namespace}");
             _codeBuilder.AppendLine("{");
 
             using (_codeBuilder.Indent())
             {
-                GenerateInternal(options);
+                GenerateMainCode(options);
             }
 
             _codeBuilder.AppendLine("}");
@@ -38,12 +35,22 @@ namespace Dmd.CodeGenerator.Generators
             return content;
         }
 
-        private void GenerateInternal(CodeOptions options)
+        private void GenerateImports(CodeOptions options)
+        {
+            foreach (var import in options.Imports)
+            {
+                _codeBuilder.AppendLine($"using {import};");
+            }
+
+            _codeBuilder.AppendLine();
+        }
+
+        private void GenerateMainCode(CodeOptions options)
         {
 
             if (!string.IsNullOrWhiteSpace(options.BaseClass) || options.BaseInterfaces?.Count > 0)
             {
-                _codeBuilder.AppendLine($"public partial {options.ClassType.ToString("G").ToLower()} {options.Name} :");
+                _codeBuilder.AppendLine($"public partial {options.CodeType.ToString("G").ToLower()} {options.Name} :");
                 using (_codeBuilder.Indent())
                 {
                     if (!string.IsNullOrWhiteSpace(options.BaseClass))
@@ -67,7 +74,7 @@ namespace Dmd.CodeGenerator.Generators
             }
             else
             {
-                _codeBuilder.AppendLine($"public partial {options.ClassType.ToString("G").ToLower()} {options.Name}");
+                _codeBuilder.AppendLine($"public partial {options.CodeType.ToString("G").ToLower()} {options.Name}");
             }
 
             _codeBuilder.AppendLine("{");
@@ -107,7 +114,13 @@ namespace Dmd.CodeGenerator.Generators
                     _codeBuilder.AppendLine(stringBuilder.ToString());
                 }
 
-                _codeBuilder.AppendLine($"public {property.Type} {property.Name} " + "{ get; set; }");
+                var getStatement = string.IsNullOrWhiteSpace(property.GetAccessLevel)
+                    ? "get;"
+                    : $"{property.GetAccessLevel} get;";
+                var setStatement = string.IsNullOrWhiteSpace(property.SetAccessLevel)
+                    ? "set;"
+                    : $"{property.SetAccessLevel} set;";
+                _codeBuilder.AppendLine($"{property.AccessLevel} {property.Type} {property.Name} " + "{ " + $"{getStatement} {setStatement} " + "}");
                 _codeBuilder.AppendLine();
             }
         }

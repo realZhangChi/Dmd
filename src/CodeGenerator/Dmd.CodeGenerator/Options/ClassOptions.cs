@@ -8,7 +8,7 @@ namespace Dmd.CodeGenerator.Options
     {
         public ClassOptions()
         {
-            ClassType = ClassType.Class;
+            CodeType = CodeType.Class;
         }
     }
 }
