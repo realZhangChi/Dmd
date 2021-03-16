@@ -1,67 +1,13 @@
 ﻿@page "/"
 
-    <div>
-        <Buttons Role="ButtonsRole.Toolbar">
-            <Buttons Margin="Margin.Is2.FromRight">
-                <Button Color="Color.Primary" Clicked="ShowAddNewModal">Add New</Button>
-            </Buttons>
-        </Buttons>
-        <DmdCanvasComponent Width="@windowWidth" Height="@windowHeight" @ref="_dmdCanvasComponent"></DmdCanvasComponent>
-    </div>
-
-    <Modal @ref="_addNewModalRef">
-        <ModalBackdrop />
-        <ModalContent IsCentered="true" Size="ModalSize.Large">
-            <ModalHeader>
-                <ModalTitle>Add New Entity</ModalTitle>
-                <CloseButton Clicked="@HideAddNewModal" />
-            </ModalHeader>
-            <ModalBody>
-                <div class="row">
-                    <div class="col-3 d-flex flex-row-reverse">
-                        <h6>Name</h6>
-                    </div>
-                    <div class="col-9">
-                        <Field>
-                            <TextEdit Placeholder="Enter name..." @bind-Text="@_newClassModel.Name" />
-                        </Field>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="row d-flex flex-row-reverse">
-                            <h6>Properties</h6>
-                        </div>
-                        @*<div class="row d-flex flex-row-reverse">
-                                <Button Color="Color.Secondary" Size="Size.Small">Add</Button>
-                            </div>*@
-                    </div>
-                    <div class="col-9">
-                        <Field>
-                            <TextEdit Placeholder="Enter property..." @bind-Text="@_newClassModel.Properties" />
-                        </Field>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="row d-flex flex-row-reverse">
-                            <h6>Methods</h6>
-                        </div>
-                        @*<div class="row d-flex flex-row-reverse">
-                                <Button Color="Color.Secondary" Size="Size.Small">Add</Button>
-                            </div>*@
-                    </div>
-                    <div class="col-9">
-                        <Field>
-                            <TextEdit Placeholder="Enter method..." @bind-Text="@_newClassModel.Methods" />
-                        </Field>
-                    </div>
-                </div>
-
-            </ModalBody>
-            <ModalFooter>
-                <Button Color="Color.Secondary" Clicked="@HideAddNewModal">Close</Button>
-                <Button Color="Color.Primary" Clicked="@AddNewEntityAsync">Save Changes</Button>
-            </ModalFooter>
-        </ModalContent>
-    </Modal>
+<Row>
+    <Column ColumnSize="ColumnSize.Is2" />
+    <Column ColumnSize="ColumnSize.Is8">
+        <div class="mt-5">
+            <h1 class="my-5">Welcome!</h1>
+            
+            <Button Color="Color.Primary" Clicked="@OnOpenBtnClicked">Open</Button>
+        </div>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is2" />
+</Row>

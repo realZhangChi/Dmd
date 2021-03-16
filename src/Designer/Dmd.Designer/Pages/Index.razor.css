@@ -1,9 +1,2 @@
-﻿::deep .btn-toolbar {
-    position: absolute;
-    top: 2em;
-    width: 100%;
-    text-align: center;
-    z-index: 1;
-    justify-content: center !important;
-    display: flex !important;
+﻿.welcome-container {
 }

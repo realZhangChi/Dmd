@@ -3,7 +3,7 @@
 
 var canvas;
 
-export function init(id) {
+function init(id) {
     canvas = new fabric.Canvas(id);
 
     var isDragging = false;
@@ -76,7 +76,7 @@ export function init(id) {
         });
 };
 
-export function addClass(name, properties, methods, position) {
+function addClass(name, properties, methods, position) {
 
     var classComponent = new fabric.ClassComponent({
         className: name,
