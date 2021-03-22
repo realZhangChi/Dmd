@@ -1,16 +1,31 @@
 ﻿@page "/designer"
+@using System.Text.Json
 
-<div>
-    <Buttons Role="ButtonsRole.Toolbar">
-        <Buttons Margin="Margin.Is2.FromRight">
-            <Button Color="Color.Primary" Clicked="ShowAddNewModal">Add New</Button>
-        </Buttons>
-    </Buttons>
-    <DmdCanvasComponent Width="@windowWidth" Height="@windowHeight" @ref="_dmdCanvasComponent"></DmdCanvasComponent>
-</div>
+<Layout Sider="true">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <TreeView Nodes="DirectoryModel"
+                      GetChildNodes="@(item => item.Children)"
+                      HasChildNodes="@(item => item.Children?.Any() == true)">
+                <NodeContent>@context.Name</NodeContent>
+            </TreeView>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutContent>
+            @Content
+            @*<Buttons Role="ButtonsRole.Toolbar">
+                <Buttons Margin="Margin.Is2.FromRight">
+                    <Button Color="Color.Primary" Clicked="ShowAddNewModal">Add New</Button>
+                </Buttons>
+            </Buttons>
+            <DmdCanvasComponent Width="@windowWidth" Height="@windowHeight" @ref="_dmdCanvasComponent"></DmdCanvasComponent>*@
+        </LayoutContent>
+    </Layout>
+</Layout>
 
 <Modal @ref="_addNewModalRef">
-    <ModalBackdrop />
+    @*<ModalBackdrop />*@
     <ModalContent IsCentered="true" Size="ModalSize.Large">
         <ModalHeader>
             <ModalTitle>Add New Entity</ModalTitle>
@@ -61,7 +76,7 @@
         </ModalBody>
         <ModalFooter>
             <Button Color="Color.Secondary" Clicked="@HideAddNewModal">Close</Button>
-            <Button Color="Color.Primary" Clicked="@AddNewEntityAsync">Save Changes</Button>
+            @*<Button Color="Color.Primary" Clicked="@AddNewEntityAsync">Save Changes</Button>*@
         </ModalFooter>
     </ModalContent>
 </Modal>

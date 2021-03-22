@@ -28,14 +28,18 @@ namespace Dmd.Designer.Components.Canvas
             Id = Guid.NewGuid().ToString();
         }
 
+        protected override Task OnInitializedAsync()
+        {
+            JsTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Dmd.Designer.Components/canvas.js").AsTask());
+            return base.OnInitializedAsync();
+        }
+        
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                JsTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>(
-                    "import", "./_content/Dmd.Designer.Components/canvas.js").AsTask());
-
                 var js = await JsTask.Value;
                 await js.InvokeAsync<string>("init", Id);
             }
