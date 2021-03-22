@@ -9,7 +9,7 @@
   "Name": "TestClass",
   "BaseClass": "Object",
   "BaseInterfaces": [
-    "IDisposable"
+    
   ],
   "CodeType": 0,
   "Properties": [
@@ -20,7 +20,7 @@
       "SetAccessLevel": "private"
     },
     {
-      "AccessLevel": "protected",
+      "AccessLevel": "public",
       "Name": "Property2",
       "Type": "string",
       "GetAccessLevel": "public",
