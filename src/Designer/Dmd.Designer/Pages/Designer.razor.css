@@ -7,3 +7,7 @@
     justify-content: center !important;
     display: flex !important;
 }
+
+::deep .b-layout-sider {
+    background: #fff !important;
+}

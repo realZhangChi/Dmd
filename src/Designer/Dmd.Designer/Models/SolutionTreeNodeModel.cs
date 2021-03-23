@@ -5,12 +5,17 @@ using System.Threading.Tasks;
 
 namespace Dmd.Designer.Models
 {
-    public class DirectoryModel
+    public class SolutionTreeNodeModel
     {
         public string Path { get; set; }
 
         public string Name { get; set; }
 
-        public IEnumerable<DirectoryModel> Children { get; set; }
+        public IEnumerable<SolutionTreeNodeModel> Children { get; set; }
+
+        public SolutionTreeNodeModel()
+        {
+            Children = new List<SolutionTreeNodeModel>();
+        }
     }
 }

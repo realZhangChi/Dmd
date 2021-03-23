@@ -1,28 +1,35 @@
-﻿@page "/designer"
+﻿@page "/designer/{*SolutionPath}"
 @using System.Text.Json
 
 <Layout Sider="true">
-    <LayoutSider>
+    <LayoutSider Style="@SiderStyle">
         <LayoutSiderContent>
-            <TreeView Nodes="DirectoryModel"
-                      GetChildNodes="@(item => item.Children)"
-                      HasChildNodes="@(item => item.Children?.Any() == true)">
-                <NodeContent>@context.Name</NodeContent>
-            </TreeView>
+            <Container>
+                <Container>@SolutionRoot.Name</Container>
+                <TreeView Nodes="SolutionRoot.Children"
+                          GetChildNodes="@(item => item.Children)"
+                          HasChildNodes="@(item => item.Children?.Any() == true)">
+                    <NodeContent>
+
+                        <ContextMenuTrigger MenuId="solutionMenu" CssClass="context-menu" WrapperTag="span" Data="context.Path">
+                            @context.Name
+                        </ContextMenuTrigger>
+
+                    </NodeContent>
+                </TreeView>
+            </Container>
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
         <LayoutContent>
-            @Content
-            @*<Buttons Role="ButtonsRole.Toolbar">
-                <Buttons Margin="Margin.Is2.FromRight">
-                    <Button Color="Color.Primary" Clicked="ShowAddNewModal">Add New</Button>
-                </Buttons>
-            </Buttons>
-            <DmdCanvasComponent Width="@windowWidth" Height="@windowHeight" @ref="_dmdCanvasComponent"></DmdCanvasComponent>*@
+            <DmdCanvasComponent Width="@_windowWidth" Height="@_windowHeight" @ref="_dmdCanvasComponent"></DmdCanvasComponent>
         </LayoutContent>
     </Layout>
 </Layout>
+
+<ContextMenu Id="solutionMenu" ZIndex="9999">
+    <Item OnClick="@OnAddEntityClickedAsync">Add Entity</Item>
+</ContextMenu>
 
 <Modal @ref="_addNewModalRef">
     @*<ModalBackdrop />*@
@@ -76,7 +83,7 @@
         </ModalBody>
         <ModalFooter>
             <Button Color="Color.Secondary" Clicked="@HideAddNewModal">Close</Button>
-            @*<Button Color="Color.Primary" Clicked="@AddNewEntityAsync">Save Changes</Button>*@
+            <Button Color="Color.Primary" Clicked="@AddNewEntityAsync">Save Changes</Button>
         </ModalFooter>
     </ModalContent>
 </Modal>

@@ -36,6 +36,7 @@ namespace Dmd.Designer
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<IBrowserService, BrowserService>();
+            services.AddBlazorContextMenu();
             services.AddBlazorise(options =>
                {
                    options.ChangeTextOnKeyPress = true; // optional

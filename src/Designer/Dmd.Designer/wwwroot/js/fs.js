@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-function getChildren(path) {
+function getDirectoryChildrenInternal(path) {
     var nodes = [];
 
     fs.readdirSync(path).forEach(info => {
@@ -15,24 +15,15 @@ function getChildren(path) {
                 name: info,
                 children: []
             }
-            node.children = getChildren(path + "\\" + info);
+            node.children = getDirectoryChildrenInternal(path + "\\" + info);
             nodes.push(node);
         }
     });
-    console.log(nodes);
     return nodes;
 }
 
-export function getDirectoryInfo(path) {
-    var index = path.lastIndexOf('\\');
-    var name = path.substring(index, path.length - index);
-    var directory = {
-        path: path,
-        name: name,
-        children: getChildren(path)
-    }
-
-    return JSON.stringify(directory);
+export function getDirectoryChildren(path) {
+    return JSON.stringify(getDirectoryChildrenInternal(path));
 }
 
 //var root = loadDirectories('C:/Users/Chi/source/repos/Dmd');
