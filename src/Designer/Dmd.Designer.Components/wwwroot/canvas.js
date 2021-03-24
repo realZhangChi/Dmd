@@ -5,6 +5,9 @@ var canvas;
 
 export function init(id) {
     canvas = new fabric.Canvas(id);
+    setDimensions();
+    new ResizeObserver(setDimensions).observe(document.getElementsByClassName('canvas-container')[0].parentElement);
+    //document.getElementsByClassName('canvas-container')[0].parentElement.onresize = function () { setDimensions(); };
 
     var isDragging = false;
 
@@ -75,6 +78,14 @@ export function init(id) {
             opt.e.stopPropagation();
         });
 };
+
+function setDimensions() {
+    var parent = document.getElementsByClassName('canvas-container')[0].parentElement;
+    canvas.setDimensions({
+        width: parent.offsetWidth,
+        height: parent.offsetHeight
+    });
+}
 
 export function addClass(name, properties, methods, position) {
 

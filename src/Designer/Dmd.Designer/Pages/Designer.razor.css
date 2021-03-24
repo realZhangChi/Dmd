@@ -9,5 +9,9 @@
 }
 
 ::deep .b-layout-sider {
-    background: #fff !important;
+    background: #adb5bd !important;
+}
+
+hr {
+    margin: 0;
 }

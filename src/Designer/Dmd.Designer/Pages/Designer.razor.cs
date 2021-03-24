@@ -40,7 +40,7 @@ namespace Dmd.Designer.Pages
 
         protected SolutionTreeNodeModel SolutionRoot { get; set; }
 
-        protected string SiderStyle => $"background: #fff;min-width: 260px;border-right: #6c757d 1px solid;";
+        protected string SiderStyle => $"background: #dee2e6;min-width: 260px;";
 
         public Designer()
         {
