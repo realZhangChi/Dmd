@@ -4,25 +4,25 @@
 <Layout Sider="true">
     <LayoutSider Style="@SiderStyle">
         <LayoutSiderContent>
-                <h6  class="mt-4 ml-3">@SolutionRoot.Name</h6>
-                <hr/>
-                <TreeView Nodes="SolutionRoot.Children"
-                          GetChildNodes="@(item => item.Children)"
-                          HasChildNodes="@(item => item.Children?.Any() == true)"
-                          Class="w-100 h-100">
-                    <NodeContent>
+            <h6 class="mt-4 ml-3">@SolutionRoot.Name</h6>
+            <hr />
+            <TreeView Nodes="SolutionRoot.Children"
+                      GetChildNodes="@(item => item.Children)"
+                      HasChildNodes="@(item => item.Children?.Any() == true)"
+                      Class="w-100 h-100">
+                <NodeContent>
 
-                        <ContextMenuTrigger MenuId="solutionMenu" CssClass="context-menu" WrapperTag="span" Data="context.Path">
-                            @context.Name
-                        </ContextMenuTrigger>
+                    <ContextMenuTrigger MenuId="solutionMenu" CssClass="context-menu" WrapperTag="span" Data="context.Path">
+                        @context.Name
+                    </ContextMenuTrigger>
 
-                    </NodeContent>
-                </TreeView>
+                </NodeContent>
+            </TreeView>
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
         <LayoutContent Class="w-100 h-100">
-            <DmdCanvasComponent Width="@_windowWidth" Height="@_windowHeight" @ref="_dmdCanvasComponent"></DmdCanvasComponent>
+            <DmdCanvasComponent @ref="_dmdCanvasComponent"></DmdCanvasComponent>
         </LayoutContent>
     </Layout>
 </Layout>
@@ -39,7 +39,24 @@
             <CloseButton Clicked="@HideAddNewModal" />
         </ModalHeader>
         <ModalBody>
-            <div class="row">
+            <form>
+                <div class="mb-3">
+                    <label class="form-label" for="entityName">Name</label>
+                    <input type="text" class="form-control" id="entityName" @bind="_newClassModel.Name" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="entityName">Properties</label>
+                    <button class="btn btn-sm btn-outline-primary ml-2" @onclick="OnPropertyAddClickedAsync"><i class="fa fa-plus"></i></button>
+                    <Virtualize Items="@_newClassModel.Properties" Context="property">
+                        <input type="text" class="form-control mb-3" value="@property" />
+                    </Virtualize>
+                    @*@foreach (var property in _newClassModel.Properties)
+                    {
+                        <input type="text" class="form-control mb-3" value="@property" />
+                    }*@
+                </div>
+            </form>
+            <!--<div class="row">
                 <div class="col-3 d-flex flex-row-reverse">
                     <h6>Name</h6>
                 </div>
@@ -53,11 +70,11 @@
                 <div class="col-3">
                     <div class="row d-flex flex-row-reverse">
                         <h6>Properties</h6>
-                    </div>
-                    @*<div class="row d-flex flex-row-reverse">
-                            <Button Color="Color.Secondary" Size="Size.Small">Add</Button>
-                        </div>*@
-                </div>
+                    </div>-->
+            @*<div class="row d-flex flex-row-reverse">
+                    <Button Color="Color.Secondary" Size="Size.Small">Add</Button>
+                </div>*@
+            <!--</div>
                 <div class="col-9">
                     <Field>
                         <TextEdit Placeholder="Enter property..." @bind-Text="@_newClassModel.Properties" />
@@ -68,17 +85,17 @@
                 <div class="col-3">
                     <div class="row d-flex flex-row-reverse">
                         <h6>Methods</h6>
-                    </div>
-                    @*<div class="row d-flex flex-row-reverse">
-                            <Button Color="Color.Secondary" Size="Size.Small">Add</Button>
-                        </div>*@
-                </div>
+                    </div>-->
+            @*<div class="row d-flex flex-row-reverse">
+                    <Button Color="Color.Secondary" Size="Size.Small">Add</Button>
+                </div>*@
+            <!--</div>
                 <div class="col-9">
                     <Field>
                         <TextEdit Placeholder="Enter method..." @bind-Text="@_newClassModel.Methods" />
                     </Field>
                 </div>
-            </div>
+            </div>-->
 
         </ModalBody>
         <ModalFooter>

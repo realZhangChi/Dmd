@@ -68,6 +68,7 @@ namespace Dmd.Designer
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapFallbackToPage("/designer/{*SolutionPath}", "/_Host");
             });
 
             Task.Run(async () => await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions()

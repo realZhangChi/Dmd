@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
-using Microsoft.JSInterop;
 
 namespace Dmd.Designer.Pages
 {
@@ -14,10 +13,10 @@ namespace Dmd.Designer.Pages
     {
         [Inject]
         private ILogger<Index> Logger { get; set; }
-        
+
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
-        
+
         private async Task OnOpenBtnClicked()
         {
             var mainWindow = Electron.WindowManager.BrowserWindows.First();

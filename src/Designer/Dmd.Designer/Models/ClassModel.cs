@@ -9,8 +9,13 @@ namespace Dmd.Designer.Models
     {
         public string Name { get; set; }
 
-        public string Properties { get; set; }
+        public ICollection<string> Properties { get; set; }
 
         public string Methods { get; set; }
+
+        public ClassModel()
+        {
+            Properties = new List<string>();
+        }
     }
 }

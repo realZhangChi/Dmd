@@ -21,16 +21,12 @@ namespace Dmd.Designer.Pages
         private Modal _addNewModalRef;
         private ClassModel _newClassModel;
         private Lazy<Task<IJSObjectReference>> _fsJsTask;
-
-        private double _windowWidth;
-        private double _windowHeight;
-
+        
         [Inject]
         private IBrowserService BrowserService { get; set; }
 
         [Inject]
         private IJSRuntime JsRuntime { get; set; }
-
 
         [Inject]
         private ILogger<Designer> Logger { get; set; }
@@ -54,14 +50,12 @@ namespace Dmd.Designer.Pages
 
             _fsJsTask = new Lazy<Task<IJSObjectReference>>(() => JsRuntime.InvokeAsync<IJSObjectReference>(
                 "import", "./js/fs.js").AsTask());
-            var dimensions = await BrowserService.GetDimensionsAsync();
-            _windowHeight = dimensions.Height;
-            _windowWidth = dimensions.Width;
         }
 
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync();
+
             var solutionPath = Path.GetDirectoryName(SolutionPath);
             var solutionName = Path.GetFileNameWithoutExtension(SolutionPath);
             SolutionRoot = new SolutionTreeNodeModel()
@@ -69,7 +63,6 @@ namespace Dmd.Designer.Pages
                 Path = solutionPath,
                 Name = solutionName
             };
-
             var fsJs = await _fsJsTask.Value;
             var childrenJson = await fsJs.InvokeAsync<string>("getDirectoryChildren", solutionPath);
             var children = JsonSerializer.Deserialize<List<SolutionTreeNodeModel>>(
@@ -97,7 +90,11 @@ namespace Dmd.Designer.Pages
 
         private void ShowAddNewModal()
         {
-            _newClassModel = new ClassModel();
+            Logger.LogInformation("ShowAddNewModal");
+            _newClassModel = new ClassModel()
+            {
+                Properties = new List<string>() { string.Empty }
+            };
             _addNewModalRef.Show();
         }
 
@@ -108,27 +105,35 @@ namespace Dmd.Designer.Pages
 
         private async Task AddNewEntityAsync()
         {
-            await _dmdCanvasContext.AddClassComponentAsync(
-                _newClassModel.Name,
-                new[]
-                {
-                    _newClassModel.Properties
-                },
-                new[]
-                {
-                    _newClassModel.Methods
-                },
-                new[]
-                {
-                    _windowWidth / 2,
-                    _windowHeight / 2
-                });
+            //await _dmdCanvasContext.AddClassComponentAsync(
+            //    _newClassModel.Name,
+            //    //new[]
+            //    //{
+            //    //    _newClassModel.Properties
+            //    //},
+            //    new[]
+            //    {
+            //        _newClassModel.Methods
+            //    },
+            //    new[]
+            //    {
+            //        _windowWidth / 2,
+            //        _windowHeight / 2
+            //    });
             _addNewModalRef.Hide();
         }
 
         private async Task OnAddEntityClickedAsync(ItemClickEventArgs e)
         {
             ShowAddNewModal();
+        }
+
+        private Task OnPropertyAddClickedAsync()
+        {
+            Logger.LogInformation("OnPropertyAddClickedAsync");
+            _newClassModel.Properties.Add(string.Empty);
+            Logger.LogInformation(JsonSerializer.Serialize(_newClassModel));
+            return Task.CompletedTask;
         }
     }
 }
