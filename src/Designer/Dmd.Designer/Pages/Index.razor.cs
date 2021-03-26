@@ -33,7 +33,7 @@ namespace Dmd.Designer.Pages
                 var path = Path.GetDirectoryName(result[0]);
                 Logger.LogInformation($"result[0]:{result[0]}");
                 Logger.LogInformation(path);
-                NavigationManager.NavigateTo($"designer/{result[0]}");
+                NavigationManager.NavigateTo($"designer/{WebUtility.UrlEncode(result[0])}");
             }
         }
     }

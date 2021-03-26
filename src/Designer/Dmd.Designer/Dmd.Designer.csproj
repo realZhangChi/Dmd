@@ -4,9 +4,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Blazor.ContextMenu" Version="1.9.0" />
-    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.3.1" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.3.1" />
-    <PackageReference Include="Blazorise.TreeView" Version="0.9.3.1" />
+    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.3.2" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.3.2" />
+    <PackageReference Include="Blazorise.TreeView" Version="0.9.3.2" />
     <PackageReference Include="ElectronNET.API" Version="11.5.1" />
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\" />
-    <Folder Include="Pages\Designer\" />
+    <Folder Include="新文件夹\" />
   </ItemGroup>
 </Project>
