@@ -9,7 +9,7 @@ namespace Dmd.Designer.Models
     {
         public string Name { get; set; }
 
-        public ICollection<string> Properties { get; set; }
+        public List<string> Properties { get; set; }
 
         public string Methods { get; set; }
 

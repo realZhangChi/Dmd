@@ -1,2 +1,10 @@
-﻿
-<input type="text" class="form-control mb-3" @bind="Property" />
+﻿<div class="mb-3">
+    <label class="form-label">Properties</label>
+    <button class="btn btn-sm btn-outline-primary m-3" @onclick="AddProperty"><i class="fa fa-plus"></i></button>
+    <div>
+        @foreach (var item in EntityModel.Properties.Select((p, i) => new { Property = p, Index = i }))
+        {
+            <input type="text" class="form-control mb-3" value="@item.Property" @onchange="@(p => EntityModel.Properties[item.Index] = p.Value?.ToString())" />
+        }
+    </div>
+</div>
