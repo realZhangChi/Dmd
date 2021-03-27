@@ -24,11 +24,11 @@
     
 	
 	<ItemGroup>
-    <ProjectReference Include="..\..\..\src\CodeGenerator\Dmd.CodeGenerator\Dmd.CodeGenerator.csproj"/>
-  </ItemGroup>
+        <AdditionalFiles Include="dmd.json" />
+	</ItemGroup>
     
 	
 	<ItemGroup>
-        <AdditionalFiles Include="dmd.json"/>
+	  <ProjectReference Include="..\..\..\src\Dmd.CodeGenerator\Dmd.CodeGenerator.csproj" />
 	</ItemGroup>
 </Project>

@@ -13,8 +13,4 @@
     <AdditionalFiles Include="dmd.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\CodeGenerator\Dmd.CodeGenerator\Dmd.CodeGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-  </ItemGroup>
-
 </Project>
