@@ -125,7 +125,7 @@ fabric.ClassComponent = fabric.util.createClass(fabric.Group, {
         var partialSpacing = 6;
         var partQuantity = 3;
         var innerOptions = {};
-        innerOptions.shadow = { color: "rgba(0, 0, 0, 0.3)", blur: 20, offsetX: 5, offsetY: 5 };
+        innerOptions.shadow = { color: "rgba(0, 0, 0, 0.3)", blur: 10, offsetX: 3, offsetY: 3 };
         innerOptions.width = 180;
         innerOptions.height = nameHeight +
             (this.properties.length + this.methods.length) * itemHeight +
@@ -180,12 +180,14 @@ fabric.ClassComponent = fabric.util.createClass(fabric.Group, {
                 });
             objects.push(property);
         }
-        var line = new fabric.Line([-innerOptions.width / 2, top, innerOptions.width / 2, top], {
-            stroke: '#007bff',
-            selectable: false
-        });
-        objects.push(line);
-        top += partialSpacing;
+        if (this.methods.length > 0) {
+            var line = new fabric.Line([-innerOptions.width / 2, top, innerOptions.width / 2, top], {
+                stroke: '#007bff',
+                selectable: false
+            });
+            objects.push(line);
+            top += partialSpacing;
+        }
 
         // method part
         for (var j = 0; j < this.methods.length; j++, top += itemHeight) {
