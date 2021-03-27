@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Blazorise;
 using Dmd.Designer.Models;
 using Dmd.Designer.Services;
+using Dmd.SourceOptions;
 using Microsoft.AspNetCore.Components;
 
 namespace Dmd.Designer.Pages.Designer
@@ -13,7 +14,7 @@ namespace Dmd.Designer.Pages.Designer
     {
         private Modal _modal;
 
-        public ClassModel EntityModel { get; set; }
+        public EntityModel EntityModel { get; set; }
 
         [Inject]
         private IBrowserService BrowserService { get; set; }
@@ -23,7 +24,7 @@ namespace Dmd.Designer.Pages.Designer
 
         public EntityModal()
         {
-            EntityModel = new ClassModel();
+            EntityModel = new EntityModel();
         }
 
         private void CloseModal()
@@ -33,18 +34,13 @@ namespace Dmd.Designer.Pages.Designer
 
         public Task OpenAsync()
         {
-            EntityModel = new ClassModel()
+            EntityModel = new EntityModel()
             {
-                Properties = new List<string>() { string.Empty }
+                Properties = new List<PropertyModel>() { new() }
             };
             _modal.Show();
 
             return Task.CompletedTask;
-        }
-
-        private void AddProperty()
-        {
-            EntityModel.Properties.Add(string.Empty);
         }
 
         private async Task SaveAsync()

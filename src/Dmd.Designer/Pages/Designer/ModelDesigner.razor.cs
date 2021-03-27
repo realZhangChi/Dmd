@@ -5,14 +5,10 @@ using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using BlazorContextMenu;
-using Blazorise;
 using Dmd.Designer.Components.Canvas;
 using Dmd.Designer.Models;
 using Dmd.Designer.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
@@ -23,7 +19,6 @@ namespace Dmd.Designer.Pages.Designer
         private DmdCanvasComponent _dmdCanvasComponent;
         private DmdCanvasContext _dmdCanvasContext;
         private EntityModal _entityModal;
-        private ClassModel _newClassModel;
         private Lazy<Task<IJSObjectReference>> _fsJsTask;
 
         [Inject]
@@ -42,13 +37,8 @@ namespace Dmd.Designer.Pages.Designer
 
         protected string SiderStyle => $"background: #dee2e6;min-width: 260px;";
 
-        private bool _modalShow;
-        private string ModalClass => _modalShow ? "modal fade show" : "modal fade";
-        private string ModalStyle => _modalShow ? "display: block;" : "display: none;";
-
         public ModelDesigner()
         {
-            _newClassModel = new ClassModel();
             SolutionRoot = new SolutionTreeNodeModel();
         }
 
@@ -95,30 +85,15 @@ namespace Dmd.Designer.Pages.Designer
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        private void ShowAddNewModal()
-        {
-            Logger.LogInformation("ShowAddNewModal");
-            _newClassModel = new ClassModel()
-            {
-                Properties = new List<string>() { string.Empty }
-            };
-            //_addNewModalRef.Show();
-        }
-
-        private void HideAddNewModal()
-        {
-            //_addNewModalRef.Hide();
-        }
-
         private async Task AddNewEntityAsync(ModalSaveClickEventArgs args)
         {
-            if (args.Data is ClassModel model)
+            if (args.Data is EntityModel model)
             {
                 Logger.LogInformation(JsonSerializer.Serialize(model));
                 var dimension = await BrowserService.GetDimensionsAsync();
                 await _dmdCanvasContext.AddClassComponentAsync(
                     model.Name,
-                    model.Properties.ToArray(),
+                    model.Properties.Select(p => p.Name).ToArray(),
                     new string[] { },
                     new[]
                     {
@@ -126,25 +101,12 @@ namespace Dmd.Designer.Pages.Designer
                         dimension.Height / 2
                     });
             }
-            //_addNewModalRef.Hide();
         }
 
-        private async Task OnAddEntityClickedAsync(ItemClickEventArgs e)
-        {
-            ShowAddNewModal();
-        }
 
         private void ToggleModal()
         {
             _entityModal.OpenAsync();
-        }
-
-        private Task OnPropertyAddClickedAsync()
-        {
-            Logger.LogInformation("OnPropertyAddClickedAsync");
-            _newClassModel.Properties.Add(string.Empty);
-            Logger.LogInformation(JsonSerializer.Serialize(_newClassModel));
-            return Task.CompletedTask;
         }
     }
 }
