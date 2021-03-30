@@ -7,7 +7,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Dmd.Designer.Components.Canvas;
 using Dmd.Designer.Models;
+using Dmd.Designer.Models.Solution;
 using Dmd.Designer.Services;
+using Dmd.Designer.Services.Solution;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
@@ -30,16 +32,20 @@ namespace Dmd.Designer.Pages.Designer
         [Inject]
         private ILogger<ModelDesigner> Logger { get; set; }
 
+        [Inject]
+        private ISolutionManager SolutionManager { get; set; }
+
         [Parameter]
         public string SolutionPath { get; set; }
-
-        protected SolutionTreeNodeModel SolutionRoot { get; set; }
+        
+        private string SolutionName { get; set; }
+        private ICollection<FileModel> SolutionTree { get; set; }
 
         protected string SiderStyle => $"background: #dee2e6;min-width: 260px;";
 
         public ModelDesigner()
         {
-            SolutionRoot = new SolutionTreeNodeModel();
+            SolutionTree = new List<FileModel>();
         }
 
         protected override async Task OnInitializedAsync()
@@ -62,23 +68,12 @@ namespace Dmd.Designer.Pages.Designer
             if (firstRender)
             {
                 _dmdCanvasContext = _dmdCanvasComponent.Context();
-                var solutionPath = Path.GetDirectoryName(SolutionPath);
-                var solutionName = Path.GetFileNameWithoutExtension(SolutionPath);
-                SolutionRoot.Path = solutionPath;
-                SolutionRoot.Name = solutionName;
-                var fsJs = await _fsJsTask.Value;
-                var childrenJson = await fsJs.InvokeAsync<string>("getDirectoryChildren", solutionPath);
-                Logger.LogInformation(childrenJson);
-                var children = JsonSerializer.Deserialize<List<SolutionTreeNodeModel>>(
-                    childrenJson,
-                    new JsonSerializerOptions()
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
-                if (children is not null)
-                {
-                    ((List<SolutionTreeNodeModel>)SolutionRoot.Children).AddRange(children);
-                }
+
+                await SolutionManager.SetSolutionPathAsync(JsRuntime, SolutionPath);
+                SolutionTree = SolutionManager.DirectoryTree;
+                SolutionName = SolutionManager.Solution.Name;
+                Logger.LogInformation(JsonSerializer.Serialize(SolutionTree));
+
                 StateHasChanged();
             }
 

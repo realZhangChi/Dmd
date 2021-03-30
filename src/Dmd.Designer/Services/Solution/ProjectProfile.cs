@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Dmd.Designer.Services.SolutionProfiles
+namespace Dmd.Designer.Services.Solution
 {
     public class ProjectProfile
     {
@@ -10,6 +10,11 @@ namespace Dmd.Designer.Services.SolutionProfiles
 
         public string Name => Path.GetFileNameWithoutExtension(FullPath);
 
-        public string Dictionary => Path.GetDirectoryName(FullPath);
+        public string Directory => Path.GetDirectoryName(FullPath);
+
+        protected internal ProjectProfile()
+        {
+
+        }
     }
 }

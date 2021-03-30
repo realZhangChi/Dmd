@@ -10,11 +10,13 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using Dmd.Designer.Services;
+using Dmd.Designer.Services.Solution;
 using ElectronNET.API.Entities;
 
 namespace Dmd.Designer
@@ -32,15 +34,18 @@ namespace Dmd.Designer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<ISolutionManager, SolutionManager>();
             services.AddScoped<IBrowserService, BrowserService>();
             services.AddBlazorContextMenu();
             services.AddBlazorise(options =>
                {
                    options.ChangeTextOnKeyPress = true; // optional
-                })
+               })
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
         }

@@ -4,16 +4,16 @@
 <Layout Sider="true">
     <LayoutSider Style="@SiderStyle">
         <LayoutSiderContent>
-            <h6 class="mt-4 ml-3">@SolutionRoot.Name</h6>
+            <h6 class="mt-4 ml-3">@SolutionName</h6>
             <hr />
-            <TreeView Nodes="SolutionRoot.Children"
+            <TreeView Nodes="SolutionTree"
                       GetChildNodes="@(item => item.Children)"
                       HasChildNodes="@(item => item.Children?.Any() == true)"
                       Class="w-100 h-100">
                 <NodeContent>
 
-                    <ContextMenuTrigger MenuId="solutionMenu" CssClass="context-menu" WrapperTag="span" Data="context.Path">
-                        @context.Name
+                    <ContextMenuTrigger MenuId="solutionMenu" CssClass="context-menu" WrapperTag="span" Data="context.FullPath">
+                        @context.FullName
                     </ContextMenuTrigger>
 
                 </NodeContent>
