@@ -18,7 +18,7 @@ function getSolutionTreeInternal(path) {
             directory.children = getSolutionTreeInternal(path + "\\" + info);
             nodes.push(directory);
         } else {
-            if (!info.endsWith('.csropj')) {
+            if (!info.endsWith('.csproj')) {
                 return;
             }
             var file = {
