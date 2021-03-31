@@ -20,6 +20,7 @@ using Dmd.Designer.Services.Canvas;
 using Dmd.Designer.Services.File;
 using Dmd.Designer.Services.Solution;
 using ElectronNET.API.Entities;
+using MediatR;
 
 namespace Dmd.Designer
 {
@@ -52,6 +53,8 @@ namespace Dmd.Designer
                })
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
+
+            services.AddMediatR(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

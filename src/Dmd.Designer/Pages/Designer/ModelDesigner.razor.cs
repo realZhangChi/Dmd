@@ -6,12 +6,14 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Dmd.Designer.Components.Canvas;
+using Dmd.Designer.Events;
 using Dmd.Designer.Models;
 using Dmd.Designer.Models.Solution;
 using Dmd.Designer.Services;
 using Dmd.Designer.Services.Canvas;
 using Dmd.Designer.Services.File;
 using Dmd.Designer.Services.Solution;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
@@ -41,7 +43,7 @@ namespace Dmd.Designer.Pages.Designer
         private ICanvasService CanvasService { get; set; }
 
         [Inject]
-        private IFileService FileService { get; set; }
+        private IMediator Mediator { get; set; }
 
         [Parameter]
         public string SolutionPath { get; set; }
@@ -81,8 +83,7 @@ namespace Dmd.Designer.Pages.Designer
                 SolutionTree = SolutionManager.DirectoryTree;
                 SolutionName = SolutionManager.Solution.Name;
                 Logger.LogInformation(SolutionManager.Solution.Directory);
-                var content = await FileService.ReadAsync(SolutionManager.Solution.Directory + "/dmd.json");
-                
+
                 StateHasChanged();
             }
 
@@ -97,17 +98,15 @@ namespace Dmd.Designer.Pages.Designer
                 await _dmdCanvasContext.AddClassComponentAsync(
                     model.Name,
                     model.Properties.Select(p => p.Name).ToArray(),
-                    new string[] { },
+                    Array.Empty<string>(),
                     new[]
                     {
                         dimension.Width / 2,
                         dimension.Height / 2
                     });
-                var json = await CanvasService.GetJsonAsync();
-                await FileService.SaveAsync(SolutionManager.Solution.Directory, "dmd.json", json);
+                await Mediator.Publish(new EntityCreatedEvent());
             }
         }
-
 
         private void ToggleModal()
         {

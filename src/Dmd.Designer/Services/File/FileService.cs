@@ -23,6 +23,7 @@ namespace Dmd.Designer.Services.File
 
         public async Task SaveAsync(string directory, string name, string content)
         {
+            // TODO: directory and name validate
             directory = directory.Replace(@"\\", "/");
             var js = await JsTask.Value;
             await js.InvokeVoidAsync("save", directory, name, content);

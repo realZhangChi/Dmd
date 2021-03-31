@@ -7,6 +7,6 @@ namespace Dmd.Designer.Services.Canvas
 {
     public interface ICanvasService
     {
-        Task<string> GetJsonAsync();
+        Task SaveToJsonAsync();
     }
 }
