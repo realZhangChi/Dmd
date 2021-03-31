@@ -9,6 +9,8 @@ using Dmd.Designer.Components.Canvas;
 using Dmd.Designer.Models;
 using Dmd.Designer.Models.Solution;
 using Dmd.Designer.Services;
+using Dmd.Designer.Services.Canvas;
+using Dmd.Designer.Services.File;
 using Dmd.Designer.Services.Solution;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
@@ -35,9 +37,15 @@ namespace Dmd.Designer.Pages.Designer
         [Inject]
         private ISolutionManager SolutionManager { get; set; }
 
+        [Inject]
+        private ICanvasService CanvasService { get; set; }
+
+        [Inject]
+        private IFileService FileService { get; set; }
+
         [Parameter]
         public string SolutionPath { get; set; }
-        
+
         private string SolutionName { get; set; }
         private ICollection<FileModel> SolutionTree { get; set; }
 
@@ -72,8 +80,9 @@ namespace Dmd.Designer.Pages.Designer
                 await SolutionManager.SetSolutionPathAsync(JsRuntime, SolutionPath);
                 SolutionTree = SolutionManager.DirectoryTree;
                 SolutionName = SolutionManager.Solution.Name;
-                Logger.LogInformation(JsonSerializer.Serialize(SolutionTree));
-
+                Logger.LogInformation(SolutionManager.Solution.Directory);
+                var content = await FileService.ReadAsync(SolutionManager.Solution.Directory + "/dmd.json");
+                
                 StateHasChanged();
             }
 
@@ -84,7 +93,6 @@ namespace Dmd.Designer.Pages.Designer
         {
             if (args.Data is EntityModel model)
             {
-                Logger.LogInformation(JsonSerializer.Serialize(model));
                 var dimension = await BrowserService.GetDimensionsAsync();
                 await _dmdCanvasContext.AddClassComponentAsync(
                     model.Name,
@@ -95,6 +103,8 @@ namespace Dmd.Designer.Pages.Designer
                         dimension.Width / 2,
                         dimension.Height / 2
                     });
+                var json = await CanvasService.GetJsonAsync();
+                await FileService.SaveAsync(SolutionManager.Solution.Directory, "dmd.json", json);
             }
         }
 

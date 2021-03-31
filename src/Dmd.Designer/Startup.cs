@@ -16,6 +16,8 @@ using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using Dmd.Designer.Services;
+using Dmd.Designer.Services.Canvas;
+using Dmd.Designer.Services.File;
 using Dmd.Designer.Services.Solution;
 using ElectronNET.API.Entities;
 
@@ -41,6 +43,8 @@ namespace Dmd.Designer
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<ISolutionManager, SolutionManager>();
             services.AddScoped<IBrowserService, BrowserService>();
+            services.AddTransient<ICanvasService, CanvasService>();
+            services.AddTransient<IFileService, FileService>();
             services.AddBlazorContextMenu();
             services.AddBlazorise(options =>
                {

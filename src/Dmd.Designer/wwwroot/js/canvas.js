@@ -11,30 +11,30 @@ export function init(id) {
 
     var isDragging = false;
 
-    for (var x = -50000; x <= 50000; x += 20) {
-        var strokeWidth = 1;
-        if (x % 100 === 0) {
-            strokeWidth = 2;
-        }
-        var line = new fabric.Line([x, -50000, x, 50000], {
-            stroke: 'rgba(240,248,255,1)',
-            strokeWidth: strokeWidth,
-            selectable: false
-        });
-        canvas.add(line);
-    }
-    for (var y = -50000; y <= 50000; y += 20) {
-        var strokeWidth = 1;
-        if (y % 100 === 0) {
-            strokeWidth = 2;
-        }
-        var line = new fabric.Line([-50000, y, 50000, y], {
-            stroke: 'rgba(240,248,255,1)',
-            strokeWidth: strokeWidth,
-            selectable: false
-        });
-        canvas.add(line);
-    }
+    //for (var x = -50000; x <= 50000; x += 20) {
+    //    var strokeWidth = 1;
+    //    if (x % 100 === 0) {
+    //        strokeWidth = 2;
+    //    }
+    //    var line = new fabric.Line([x, -50000, x, 50000], {
+    //        stroke: 'rgba(240,248,255,1)',
+    //        strokeWidth: strokeWidth,
+    //        selectable: false
+    //    });
+    //    canvas.add(line);
+    //}
+    //for (var y = -50000; y <= 50000; y += 20) {
+    //    var strokeWidth = 1;
+    //    if (y % 100 === 0) {
+    //        strokeWidth = 2;
+    //    }
+    //    var line = new fabric.Line([-50000, y, 50000, y], {
+    //        stroke: 'rgba(240,248,255,1)',
+    //        strokeWidth: strokeWidth,
+    //        selectable: false
+    //    });
+    //    canvas.add(line);
+    //}
 
     canvas.on('mouse:down', function (opt) {
         var evt = opt.e;
@@ -85,6 +85,12 @@ function setDimensions() {
         width: parent.offsetWidth,
         height: parent.offsetHeight
     });
+}
+
+export function toJson() {
+    console.log('toJson');
+    console.log(JSON.stringify(canvas));
+    return JSON.stringify(canvas);
 }
 
 export function addClass(name, properties, methods, position) {
