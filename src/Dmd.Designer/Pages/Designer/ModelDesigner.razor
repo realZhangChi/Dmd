@@ -12,9 +12,17 @@
                       Class="w-100 h-100">
                 <NodeContent>
 
-                    <ContextMenuTrigger MenuId="solutionMenu" CssClass="context-menu" WrapperTag="span" Data="context.FullPath">
+                    @if (SolutionManager.IsInProject(context.FullPath))
+                    {
+                        <ContextMenuTrigger MenuId="solutionMenu" CssClass="context-menu" WrapperTag="span" Data="context.FullPath">
+                            @context.FullName
+                        </ContextMenuTrigger>
+                    }
+                    else
+                    {
                         @context.FullName
-                    </ContextMenuTrigger>
+                    }
+
 
                 </NodeContent>
             </TreeView>
@@ -31,4 +39,4 @@
     <Item OnClick="@ToggleModal">Add Entity</Item>
 </ContextMenu>
 
-<EntityModal @ref="_entityModal" ModalSaveClickCallBack="@AddNewEntityAsync"></EntityModal>
+<EntityModal EntityModel="EntityModel" @ref="_entityModal" ModalSaveClickCallBack="@AddNewEntityAsync"></EntityModal>

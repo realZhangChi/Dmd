@@ -13,8 +13,10 @@ namespace Dmd.Designer.Services.Solution
 
         Task SetSolutionPathAsync(IJSRuntime jsRuntime, string fullPath);
 
+        bool IsInProject(string absolutePath);
+
         Task<string> GetProjectDirectoryAsync(string path);
 
-        Task<string> GetNameSpaceAsync(string path);
+        Task<string> GetNameSpaceAsync(IJSRuntime jsRuntime, string path);
     }
 }

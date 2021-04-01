@@ -7,6 +7,8 @@ namespace Dmd.SourceOptions
         public ICollection<string> Imports { get; set; }
 
         public string Namespace { get; set; }
+        
+        public string ProjectDirectory { get; set; }
 
         public string Directory { get; set; }
 

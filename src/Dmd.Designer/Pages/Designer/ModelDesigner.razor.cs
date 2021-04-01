@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
+using BlazorContextMenu;
 using Dmd.Designer.Components.Canvas;
 using Dmd.Designer.Events;
 using Dmd.Designer.Models;
@@ -22,6 +24,8 @@ namespace Dmd.Designer.Pages.Designer
         private DmdCanvasContext _dmdCanvasContext;
         private EntityModal _entityModal;
 
+        protected EntityModel EntityModel { get; set; }
+
         [Inject]
         private IJSRuntime JsRuntime { get; set; }
 
@@ -30,15 +34,20 @@ namespace Dmd.Designer.Pages.Designer
 
         [Inject]
         private ISolutionManager SolutionManager { get; set; }
-        
+
         [Inject]
         private IMediator Mediator { get; set; }
 
         [Parameter]
         public string SolutionPath { get; set; }
-        
+
         protected string SiderStyle => $"background: #dee2e6;min-width: 260px;";
-        
+
+        public ModelDesigner()
+        {
+            EntityModel = new EntityModel();
+        }
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -58,6 +67,7 @@ namespace Dmd.Designer.Pages.Designer
                 _dmdCanvasContext = _dmdCanvasComponent.Context();
 
                 await SolutionManager.SetSolutionPathAsync(JsRuntime, SolutionPath);
+                Logger.LogInformation(JsonSerializer.Serialize(SolutionManager));
 
                 StateHasChanged();
             }
@@ -65,18 +75,24 @@ namespace Dmd.Designer.Pages.Designer
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        private async Task AddNewEntityAsync(ModalSaveClickEventArgs args)
+        private async Task AddNewEntityAsync()
         {
-            if (args.Data is EntityModel model)
-            {
-                await _dmdCanvasContext.AddEntityComponentAsync(model);
-                await Mediator.Publish(new EntityCreatedEvent(model));
-            }
+            await _dmdCanvasContext.AddEntityComponentAsync(EntityModel);
+            await Mediator.Publish(new EntityCreatedEvent(EntityModel));
         }
 
-        private void ToggleModal()
+        private async Task ToggleModal(ItemClickEventArgs args)
         {
-            _entityModal.OpenAsync();
+            if (args.Data is string path)
+            {
+                EntityModel = new EntityModel()
+                {
+                    Properties = new List<PropertyModel>() { new() },
+                    ProjectDirectory = await SolutionManager.GetProjectDirectoryAsync(path),
+                    Namespace = await SolutionManager.GetNameSpaceAsync(JsRuntime, path)
+                };
+                await _entityModal.OpenAsync();
+            }
         }
     }
 }

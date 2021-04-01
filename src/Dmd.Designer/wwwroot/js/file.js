@@ -14,7 +14,8 @@ export function save(directory, name, content) {
     });
 }
 
-export function readJsonFile(fullPath) {
+export function readFile(fullPath) {
+    console.log(fullPath);
     return new window.Promise((resolve, reject) => {
         fs.readFile(fullPath,
             (err, data) => {
@@ -22,6 +23,7 @@ export function readJsonFile(fullPath) {
                     reject(err);
                     return;
                 }
+                console.log(data.toString());
                 resolve(data.toString());
             });
     });

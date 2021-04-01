@@ -29,11 +29,15 @@ namespace Dmd.Designer.Services.File
             await js.InvokeVoidAsync("save", directory, name, content);
         }
 
-        public async Task<string> ReadAsync(string fullPath)
+        public async Task<string> ReadAsync(string fullPath, IJSRuntime jsRuntime = null)
         {
             fullPath = fullPath.Replace(@"\\", "/");
-            var js = await JsTask.Value;
-            var result =  await js.InvokeAsync<string>("readJsonFile", fullPath);
+            var js = jsRuntime is null ?
+                await JsTask.Value :
+                await jsRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./js/file.js");
+            var result = await js.InvokeAsync<string>("readFile", fullPath);
+            _logger.LogInformation(result);
             return result;
         }
     }
