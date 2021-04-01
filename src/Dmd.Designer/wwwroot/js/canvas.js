@@ -8,9 +8,7 @@ export function init(id) {
     setDimensions();
     new ResizeObserver(setDimensions).observe(document.getElementsByClassName('canvas-container')[0].parentElement);
     //document.getElementsByClassName('canvas-container')[0].parentElement.onresize = function () { setDimensions(); };
-
-    var isDragging = false;
-
+    
     //for (var x = -50000; x <= 50000; x += 20) {
     //    var strokeWidth = 1;
     //    if (x % 100 === 0) {
@@ -80,28 +78,28 @@ export function init(id) {
 };
 
 function setDimensions() {
-    var parent = document.getElementsByClassName('canvas-container')[0].parentElement;
+    var container = getContainerDimensions();
     canvas.setDimensions({
-        width: parent.offsetWidth,
-        height: parent.offsetHeight
+        width: container.width,
+        height: container.height
     });
+}
+
+function getContainerDimensions() {
+    var container = document.getElementsByClassName('canvas-container')[0].parentElement;
+    return {
+        width: container.offsetWidth,
+        height: container.offsetHeight
+    }
 }
 
 export function toJson() {
-    console.log('toJson');
-    console.log(JSON.stringify(canvas));
     return JSON.stringify(canvas);
 }
 
-export function addClass(name, properties, methods, position) {
+export function addEntity(model) {
 
-    var classComponent = new fabric.ClassComponent({
-        className: name,
-        properties: properties,
-        methods: methods,
-        left: position[0] ?? 100,
-        top: position[1] ?? 100,
-    });
+    var classComponent = new fabric.EntityComponent(model);
     classComponent.setControlsVisibility({
         mt: false,
         mb: false,
@@ -117,34 +115,34 @@ export function addClass(name, properties, methods, position) {
 }
 
 
-fabric.ClassComponent = fabric.util.createClass(fabric.Group, {
+fabric.EntityComponent = fabric.util.createClass(fabric.Group, {
 
-    type: 'ClassComponent',
+    type: 'EntityComponent',
 
-    initialize: function (options) {
-        this.set('className', options.className || '');
-        this.set('properties', options.properties || []);
-        this.set('methods', options.methods || []);
+    initialize: function (model) {
+        this.set('model', model || {});
 
         var nameHeight = 20;
         var itemHeight = 24;
         var partialSpacing = 6;
-        var partQuantity = 3;
-        var innerOptions = {};
-        innerOptions.shadow = { color: "rgba(0, 0, 0, 0.3)", blur: 10, offsetX: 3, offsetY: 3 };
-        innerOptions.width = 180;
-        innerOptions.height = nameHeight +
-            (this.properties.length + this.methods.length) * itemHeight +
+        var partQuantity = 2;
+        var options = {};
+        options.shadow = { color: "rgba(0, 0, 0, 0.3)", blur: 10, offsetX: 3, offsetY: 3 };
+        options.width = 180;
+        options.height = nameHeight +
+            (this.model.properties.length) * itemHeight +
             (partQuantity - 1) * partialSpacing;
-        innerOptions.left = options.left - innerOptions.width / 2;
-        innerOptions.top = options.top - innerOptions.height / 2;
+        var dimensions = getContainerDimensions();
+
+        options.left = (dimensions.width - options.width) / 2;
+        options.top = (dimensions.height - options.height) / 2;
 
         var objects = [];
 
         // background
         var background = new fabric.Rect({
-            width: innerOptions.width,
-            height: innerOptions.height,
+            width: options.width,
+            height: options.height,
             originX: 'center',
             originY: 'center',
             fill: 'rgba(248,249,250,1)'
@@ -152,10 +150,10 @@ fabric.ClassComponent = fabric.util.createClass(fabric.Group, {
         objects.push(background);
 
         // name part
-        var top = -innerOptions.height / 2;
-        var nameTextBox = new fabric.Textbox(this.className,
+        var top = -options.height / 2;
+        var nameTextBox = new fabric.Textbox(this.model.name,
             {
-                width: innerOptions.width,
+                width: options.width,
                 height: 100,
                 originX: 'center',
                 originY: 'top',
@@ -171,10 +169,10 @@ fabric.ClassComponent = fabric.util.createClass(fabric.Group, {
         top += partialSpacing;
 
         // property part
-        for (var i = 0; i < this.properties.length; i++, top += itemHeight) {
-            var property = new fabric.Textbox(this.properties[i],
+        for (var i = 0; i < this.model.properties.length; i++, top += itemHeight) {
+            var property = new fabric.Textbox(this.model.properties[i].name,
                 {
-                    width: innerOptions.width,
+                    width: options.width,
                     height: itemHeight,
                     originX: 'top',
                     originY: 'top',
@@ -186,38 +184,40 @@ fabric.ClassComponent = fabric.util.createClass(fabric.Group, {
                 });
             objects.push(property);
         }
-        if (this.methods.length > 0) {
-            var line = new fabric.Line([-innerOptions.width / 2, top, innerOptions.width / 2, top], {
-                stroke: '#007bff',
-                selectable: false
-            });
-            objects.push(line);
-            top += partialSpacing;
-        }
+        //if (this.model.methods && this.model.methods.length > 0) {
+        //    var line = new fabric.Line([-innerOptions.width / 2, top, innerOptions.width / 2, top], {
+        //        stroke: '#007bff',
+        //        selectable: false
+        //    });
+        //    objects.push(line);
+        //    top += partialSpacing;
 
-        // method part
-        for (var j = 0; j < this.methods.length; j++, top += itemHeight) {
-            var method = new fabric.Textbox(this.methods[j],
-                {
-                    width: innerOptions.width,
-                    height: itemHeight,
-                    originX: 'top',
-                    originY: 'top',
-                    top: top,
-                    textAlign: 'left',
-                    fontSize: 14,
-                    fill: '#343a40',
-                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
-                });
-            objects.push(method);
-        }
+        //    // method part
+        //    for (var j = 0; j < this.model.methods.length; j++, top += itemHeight) {
+        //        var method = new fabric.Textbox(this.model.methods[j].name,
+        //            {
+        //                width: innerOptions.width,
+        //                height: itemHeight,
+        //                originX: 'top',
+        //                originY: 'top',
+        //                top: top,
+        //                textAlign: 'left',
+        //                fontSize: 14,
+        //                fill: '#343a40',
+        //                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+        //            });
+        //        objects.push(method);
+        //    }
+        //}
+
 
         // initialize
-        this.callSuper('initialize', objects, innerOptions, true);
+        this.callSuper('initialize', objects, options, true);
     },
 
     toObject: function () {
         return fabric.util.object.extend(this.callSuper('toObject'), {
+            model: this.model
         });
     },
 

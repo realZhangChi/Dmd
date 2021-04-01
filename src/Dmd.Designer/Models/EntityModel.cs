@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Dmd.Designer.Models
 {
-    public class EntityModel
+    public class EntityModel : ClassOption
     {
-        public string Name { get; set; }
+        //public string Name { get; set; }
 
-        public IList<PropertyModel> Properties { get; set; }
+        public new IList<PropertyModel> Properties { get; set; }
 
         public EntityModel()
         {

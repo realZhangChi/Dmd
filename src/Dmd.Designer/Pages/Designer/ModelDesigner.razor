@@ -4,9 +4,9 @@
 <Layout Sider="true">
     <LayoutSider Style="@SiderStyle">
         <LayoutSiderContent>
-            <h6 class="mt-4 ml-3">@SolutionName</h6>
+            <h6 class="mt-4 ml-3">@SolutionManager.Solution.Name</h6>
             <hr />
-            <TreeView Nodes="SolutionTree"
+            <TreeView Nodes="SolutionManager.DirectoryTree"
                       GetChildNodes="@(item => item.Children)"
                       HasChildNodes="@(item => item.Children?.Any() == true)"
                       Class="w-100 h-100">
