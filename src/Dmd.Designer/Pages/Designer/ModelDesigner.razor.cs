@@ -85,11 +85,12 @@ namespace Dmd.Designer.Pages.Designer
         {
             if (args.Data is string path)
             {
-                EntityModel = new EntityModel()
+                EntityModel = new EntityModel(
+                    path, 
+                    await SolutionManager.GetProjectDirectoryAsync(path),
+                    await SolutionManager.GetNameSpaceAsync(JsRuntime, path))
                 {
-                    Properties = new List<PropertyModel>() { new() },
-                    ProjectDirectory = await SolutionManager.GetProjectDirectoryAsync(path),
-                    Namespace = await SolutionManager.GetNameSpaceAsync(JsRuntime, path)
+                    Properties = new List<PropertyModel>() { new() }
                 };
                 await _entityModal.OpenAsync();
             }

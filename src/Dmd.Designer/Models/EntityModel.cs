@@ -8,8 +8,6 @@ namespace Dmd.Designer.Models
 {
     public class EntityModel : ClassOption
     {
-        //public string Name { get; set; }
-
         public new IList<PropertyModel> Properties { get; set; }
 
         public EntityModel()
@@ -17,5 +15,14 @@ namespace Dmd.Designer.Models
             Properties = new List<PropertyModel>();
         }
 
+        public EntityModel(
+            string directory,
+            string projectDirectory,
+            string nameSpace)
+        {
+            Directory = directory;
+            ProjectDirectory = projectDirectory;
+            Namespace = nameSpace;
+        }
     }
 }
