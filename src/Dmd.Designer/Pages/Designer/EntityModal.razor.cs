@@ -16,10 +16,7 @@ namespace Dmd.Designer.Pages.Designer
         
         [Parameter]
         public EntityModel EntityModel { get; set; }
-
-        [Inject]
-        private IBrowserService BrowserService { get; set; }
-
+        
         [Parameter]
         public EventCallback<ModalSaveClickEventArgs> ModalSaveClickCallBack { get; set; }
         
