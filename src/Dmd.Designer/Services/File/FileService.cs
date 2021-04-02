@@ -37,7 +37,6 @@ namespace Dmd.Designer.Services.File
                 await jsRuntime.InvokeAsync<IJSObjectReference>(
                 "import", "./js/file.js");
             var result = await js.InvokeAsync<string>("readFile", fullPath);
-            _logger.LogInformation(result);
             return result;
         }
     }
