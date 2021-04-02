@@ -72,6 +72,8 @@ namespace Dmd.Designer.Services.Solution
             return Task.FromResult(project?.Directory);
         }
 
+        // The IJSRuntime parameter is passed in because it reports a JavaScript interop calls error
+        // TODO: Better way to use JavaScript interop 
         public async Task<string> GetNameSpaceAsync(IJSRuntime jsRuntime, string path)
         {
             var project = _projects.FirstOrDefault(p => path.StartsWith(p.Directory));
@@ -80,30 +82,50 @@ namespace Dmd.Designer.Services.Solution
                 return null;
             }
 
+            var rootNameSpace = await GetProjectNameSpaceAsync(jsRuntime, project);
+            _logger.LogInformation(rootNameSpace);
+            var relativePath = path.TrimStart(project.Directory.ToCharArray());
+            _logger.LogInformation(relativePath);
+            var nameSpaceList = relativePath.Split('\\');
+
+            return nameSpaceList.Aggregate(rootNameSpace, (current, item) => current + $".{item}");
+        }
+
+        // TODO: Better way to get project namespace
+        private async Task<string> GetProjectNameSpaceAsync(IJSRuntime jsRuntime, ProjectModel project)
+        {
             if (project.NameSpace is { Length: > 0 })
             {
                 return project.NameSpace;
             }
 
             using var scope = _scopeFactory.CreateScope();
-            var fileService = (IFileService)scope.ServiceProvider.GetService(typeof(IFileService));
+            var fileService = scope.ServiceProvider.GetService<IFileService>();
             if (fileService == null)
             {
                 throw new Exception("fileService is null.");
             }
             var projectFileContent = await fileService.ReadAsync(project.FullPath, jsRuntime);
-            var index = projectFileContent.IndexOf('?');
-            projectFileContent.Remove(index);
-            _logger.LogInformation("projectFileContent");
-            _logger.LogInformation("<?xml version=\"1.0\" encoding=\"utf-8\"?>" + projectFileContent.TrimStart('?'));
-            var projectXml = new XmlDocument();
 
-            // TODO: Why start with '?'?
-            projectXml.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?>" + projectFileContent.TrimStart('?'));
-            var nameSpaceNode = projectXml.SelectSingleNode("RootNamespace");
-            project.NameSpace = nameSpaceNode is not null ? nameSpaceNode.InnerText : project.Name;
+            const string rootNameSpaceNodeStart = "<RootNamespace>";
+            const string rootNameSpaceNodeEnd = "</RootNamespace>";
+            string nameSpace;
+            if (projectFileContent.Contains(rootNameSpaceNodeStart) &&
+                projectFileContent.Contains(rootNameSpaceNodeEnd))
+            {
+                var startIndex = projectFileContent.IndexOf(rootNameSpaceNodeStart, StringComparison.OrdinalIgnoreCase) + rootNameSpaceNodeStart.Length;
+                var endIndex = projectFileContent.IndexOf(rootNameSpaceNodeEnd, StringComparison.OrdinalIgnoreCase);
 
-            return project.NameSpace;
+                nameSpace = projectFileContent.Substring(startIndex, endIndex - startIndex);
+            }
+            else
+            {
+                nameSpace = project.Name;
+            }
+
+            project.NameSpace = nameSpace;
+            _logger.LogInformation(nameSpace);
+            return nameSpace;
         }
 
         private async Task GetProjectAsync(ICollection<FileModel> model)
