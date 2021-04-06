@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /dmd_model.json
+/src/Dmd.Designer/dmd
