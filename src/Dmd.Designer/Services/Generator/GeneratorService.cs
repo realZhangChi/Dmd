@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Dmd.Designer.Models;
+using Dmd.Designer.Services.Canvas;
 using Dmd.Designer.Services.File;
 using Dmd.Designer.Services.Solution;
 using Dmd.SourceOptions;
@@ -15,6 +16,7 @@ namespace Dmd.Designer.Services.Generator
     public class GeneratorService : IGeneratorService
     {
         private readonly IFileService _fileService;
+        private readonly ICanvasService _canvasService;
         private readonly ISolutionManager _solutionManager;
         private readonly ILogger _logger;
 
@@ -30,22 +32,23 @@ namespace Dmd.Designer.Services.Generator
 
         public GeneratorService(
             IFileService fileService,
+            ICanvasService canvasService,
             ISolutionManager solutionManager,
             ILogger<GeneratorService> logger) : this()
         {
             _fileService = fileService;
+            _canvasService = canvasService;
             _solutionManager = solutionManager;
             _logger = logger;
         }
 
         public async Task GenerateEntityJsonAsync(string key)
         {
-            var json = await _fileService.ReadAsync(Path.Combine(_solutionManager.Solution.Directory,
-                "dmd_model.json"));
+            var json = await _canvasService.GetJsonAsync();
 
             var jsonDoc = JsonDocument.Parse(json);
             var entities = jsonDoc.RootElement.GetProperty("objects").EnumerateArray()
-                .Where(e => e.GetProperty("type").ToString() == "entity")
+                .Where(e => e.GetProperty("model_type").ToString() == "entity")
                 .Select(e =>
                     JsonSerializer.Deserialize<EntityModel>(
                         e.GetProperty("model").GetRawText(),
