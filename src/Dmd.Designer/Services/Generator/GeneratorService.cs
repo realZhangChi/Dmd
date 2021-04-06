@@ -44,14 +44,24 @@ namespace Dmd.Designer.Services.Generator
                 "dmd_model.json"));
 
             var jsonDoc = JsonDocument.Parse(json);
-            var element = jsonDoc.RootElement.GetProperty("objects").EnumerateArray()
-                .FirstOrDefault(e => e.GetProperty("key").ToString() == key).GetProperty("model").GetRawText();
-            _logger.LogInformation(element);
-            var model = JsonSerializer.Deserialize<EntityModel>(element, _jsonSerializerOptions);
-            if (model is not null)
+            var entities = jsonDoc.RootElement.GetProperty("objects").EnumerateArray()
+                .Where(e => e.GetProperty("type").ToString() == "entity")
+                .Select(e =>
+                    JsonSerializer.Deserialize<EntityModel>(
+                        e.GetProperty("model").GetRawText(),
+                        _jsonSerializerOptions))
+                .Distinct()
+                .ToList();
+            _logger.LogInformation(JsonSerializer.Serialize(entities));
+            if (entities is { Count: > 0 })
             {
-                await _fileService.SaveAsync(model.ProjectDirectory, "dmd_source_define.json",
-                    JsonSerializer.Serialize((ClassOption)model, _jsonSerializerOptions));
+                var groups = entities
+                    .GroupBy(e => e.ProjectDirectory);
+                foreach (var group in groups)
+                {
+                    await _fileService.SaveAsync(group.Key + "\\dmd", "dmd_entity.json",
+                        JsonSerializer.Serialize(group.ToList(), _jsonSerializerOptions));
+                }
             }
         }
     }

@@ -218,7 +218,7 @@ fabric.EntityComponent = fabric.util.createClass(fabric.Group, {
     toObject: function () {
         return fabric.util.object.extend(this.callSuper('toObject'), {
             model: this.model,
-            key: this.model.namespace + '.' + this.model.name 
+            type: 'entity' 
         });
     },
 

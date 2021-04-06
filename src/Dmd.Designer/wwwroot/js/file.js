@@ -2,14 +2,22 @@
 
 export function save(directory, name, content) {
     return new window.Promise((resolve, reject) => {
-        fs.writeFile(directory + '/' + name, content, (err) => {
+        fs.mkdir(directory, { recursive: true }, (err) => {
             if (err) {
-                console.log(err);
+                console.debug(err);
                 reject(err);
                 return;
             }
 
-            resolve();
+            fs.writeFile(directory + '\\' + name, content, (err) => {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                    return;
+                }
+
+                resolve();
+            });
         });
     });
 }
