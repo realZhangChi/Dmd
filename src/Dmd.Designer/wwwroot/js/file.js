@@ -2,14 +2,22 @@
 
 export function save(directory, name, content) {
     return new window.Promise((resolve, reject) => {
-        fs.writeFile(directory + '/' + name, content, (err) => {
+        fs.mkdir(directory, { recursive: true }, (err) => {
             if (err) {
-                console.log(err);
+                console.debug(err);
                 reject(err);
                 return;
             }
 
-            resolve();
+            fs.writeFile(directory + '\\' + name, content, (err) => {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                    return;
+                }
+
+                resolve();
+            });
         });
     });
 }
@@ -20,11 +28,27 @@ export function readFile(fullPath) {
         fs.readFile(fullPath,
             (err, data) => {
                 if (err) {
+                    console.debug(err);
+                    if (err.code === 'ENOENT') {
+                        resolve();
+                    }
                     reject(err);
                     return;
                 }
                 console.log(data.toString());
                 resolve(data.toString());
             });
+    });
+}
+
+export function access(fullPath) {
+    fs.access(fullPath, fs.constants.F_OK | fs.constants.W_OK, (err) => {
+        if (err) {
+            console.debug(
+                `${fullPath} ${err.code === 'ENOENT' ? 'does not exist' : 'is read-only'}`);
+            return false;
+        } else {
+            return true;
+        }
     });
 }

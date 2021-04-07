@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Dmd.SourceOptions;
@@ -13,16 +14,25 @@ namespace Dmd.CodeGenerator.Generators
     {
         public void Execute(GeneratorExecutionContext context)
         {
+            #if DEBUG
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
+            #endif
             var codeGenerator = new CodeGenerator();
-            var profile = context.AdditionalFiles.FirstOrDefault(f => f.Path.EndsWith("dmd.json"));
+            var profile = context.AdditionalFiles.FirstOrDefault(f => f.Path.EndsWith("entity.json"));
             if (profile is null) 
                 return;
-            var options = JsonConvert.DeserializeObject<ClassOption>(profile.GetText()!.ToString());
+            var options = JsonConvert.DeserializeObject<List<ClassOption>>(profile.GetText()!.ToString());
             if (options is null) 
                 return;
 
-            var source = codeGenerator.Generate(options);
-            context.AddSource($"{options.Name}_dmd.cs", SourceText.From(source, Encoding.UTF8));
+            foreach (var option in options)
+            {
+                var source = codeGenerator.Generate(option);
+                context.AddSource($"{option.Name}_dmd.cs", SourceText.From(source, Encoding.UTF8));
+            }
         }
 
         public void Initialize(GeneratorInitializationContext context)

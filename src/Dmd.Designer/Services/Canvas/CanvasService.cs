@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Dmd.Designer.Services.File;
@@ -28,6 +29,7 @@ namespace Dmd.Designer.Services.Canvas
             _jsTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>(
                 "import", "./js/canvas.js").AsTask());
         }
+
         public async Task SaveToJsonAsync()
         {
             if (_solutionManager.Solution.FullPath is not { Length: > 0 })
@@ -35,10 +37,23 @@ namespace Dmd.Designer.Services.Canvas
                 _logger.LogWarning("Save to json failed! solution full path is null or empty!");
                 return;
             }
+
             var js = await _jsTask.Value;
             var json = await js.InvokeAsync<string>("toJson");
             const string name = "dmd_model.json";
             await _fileService.SaveAsync(_solutionManager.Solution.Directory, name, json);
+        }
+
+        public async Task<string> GetJsonAsync()
+        {
+            if (_solutionManager.Solution.FullPath is not { Length: > 0 })
+            {
+                _logger.LogWarning("Get json failed! solution full path is null or empty!");
+                return null;
+            }
+
+            return await _fileService.ReadAsync(Path.Combine(_solutionManager.Solution.Directory,
+                "dmd_model.json"));
         }
     }
 }

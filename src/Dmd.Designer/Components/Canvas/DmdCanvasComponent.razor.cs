@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Dmd.Designer.Services.Canvas;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
 namespace Dmd.Designer.Components.Canvas
@@ -23,6 +25,12 @@ namespace Dmd.Designer.Components.Canvas
         [Inject]
         private IJSRuntime JsRuntime { get; set; }
 
+        [Inject]
+        private ICanvasService CanvasService { get; set; }
+
+        [Inject]
+        private ILogger<DmdCanvasComponent> Logger { get; set; }
+
         public DmdCanvasComponent()
         {
             Id = Guid.NewGuid().ToString();
@@ -34,14 +42,22 @@ namespace Dmd.Designer.Components.Canvas
                 "import", "./js/canvas.js").AsTask());
             return base.OnInitializedAsync();
         }
-        
+
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
                 var js = await JsTask.Value;
-                await js.InvokeAsync<string>("init", Id);
+                await js.InvokeVoidAsync("init", Id);
+
+                var json = await CanvasService.GetJsonAsync();
+
+                Logger.LogInformation(json);
+                if (json is { Length: > 0 })
+                {
+                    await js.InvokeVoidAsync("loadFromJSON", json);
+                }
             }
         }
 
