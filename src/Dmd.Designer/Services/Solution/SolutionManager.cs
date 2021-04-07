@@ -86,7 +86,8 @@ namespace Dmd.Designer.Services.Solution
             _logger.LogInformation(rootNameSpace);
             var relativePath = path.TrimStart(project.Directory.ToCharArray());
             _logger.LogInformation(relativePath);
-            var nameSpaceList = relativePath.Split('\\');
+            var nameSpaceList = relativePath.Split('\\').ToList();
+            nameSpaceList.RemoveAll(string.IsNullOrWhiteSpace);
 
             return nameSpaceList.Aggregate(rootNameSpace, (current, item) => current + $".{item}");
         }

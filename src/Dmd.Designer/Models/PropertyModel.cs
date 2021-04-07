@@ -34,5 +34,10 @@ namespace Dmd.Designer.Models
 
         [JsonIgnore]
         public bool Collapse { get; set; }
+
+        public PropertyModel()
+        {
+            AccessLevel = SourceOptions.AccessLevel.PublicLevel;
+        }
     }
 }

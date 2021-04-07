@@ -6,6 +6,7 @@ namespace SourceGeneratorSample
     {
         static void Main(string[] args)
         {
+            //Test
             //HelloWorldGenerate
             //var a = new Generated.Test.TestClass();
             //a.Property2 = "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";

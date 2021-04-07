@@ -26,6 +26,7 @@ namespace Dmd.SourceOptions
         {
             BaseInterfaces = new List<string>();
             Properties = new List<PropertyOption>();
+            Imports = new List<string>();
         }
 
     }

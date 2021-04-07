@@ -12,19 +12,28 @@
   
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" GeneratePathProperty="true" PrivateAssets="all" />
+    <!--<PackageReference Include="Dmd.SourceOptions" Version="1.0.0" GeneratePathProperty="true" PrivateAssets="all" />-->
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\Dmd.SourceOptions\Dmd.SourceOptions.csproj" />
-  </ItemGroup>
+
+	<ItemGroup>
+		<!-- Package the generator in the analyzer directory of the nuget package -->
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Dmd.SourceOptions\Dmd.SourceOptions.csproj"  PrivateAssets="all"/>
+	</ItemGroup>
 
 	<PropertyGroup>
 		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+		<Version>1.0.1</Version>
+		<NeutralLanguage />
 	</PropertyGroup>
 
 	<Target Name="GetDependencyTargetPaths">
 		<ItemGroup>
 			<TargetPathWithTargetPlatformMoniker Include="$(PkgNewtonsoft_Json)\lib\netstandard2.0\Newtonsoft.Json.dll" IncludeRuntimeDependency="false" />
+			<!--<TargetPathWithTargetPlatformMoniker Include="$(PkgDmd_SourceOptions)\lib\netstandard2.0\Dmd.SourceOptions.dll" IncludeRuntimeDependency="false" />-->
 		</ItemGroup>
 	</Target>
 </Project>

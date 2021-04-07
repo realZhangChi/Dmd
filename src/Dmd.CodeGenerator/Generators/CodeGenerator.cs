@@ -91,6 +91,7 @@ namespace Dmd.CodeGenerator.Generators
         {
             foreach (var property in options.Properties)
             {
+                _codeBuilder.AppendLine();
                 foreach (var attribute in property.Attributes)
                 {
                     var stringBuilder = new StringBuilder();
@@ -121,7 +122,6 @@ namespace Dmd.CodeGenerator.Generators
                     ? "set;"
                     : $"{property.SetAccessLevel} set;";
                 _codeBuilder.AppendLine($"{property.AccessLevel} {property.Type} {property.Name} " + "{ " + $"{getStatement} {setStatement} " + "}");
-                _codeBuilder.AppendLine();
             }
         }
     }

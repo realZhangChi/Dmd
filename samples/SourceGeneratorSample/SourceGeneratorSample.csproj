@@ -5,12 +5,13 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="dmd.json" />
-  </ItemGroup>
-
-  <ItemGroup>
+	<ItemGroup>
+    <AdditionalFiles Include="dmd\entity.json" />
     <AdditionalFiles Include="dmd.json" />
   </ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\Dmd.CodeGenerator\Dmd.CodeGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	</ItemGroup>
 
 </Project>
