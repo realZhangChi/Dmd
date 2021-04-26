@@ -8,6 +8,7 @@
 	<ItemGroup>
     <AdditionalFiles Include="dmd\entity.json" />
     <AdditionalFiles Include="dmd.json" />
+    <!--<PackageReference Include="Dmd.CodeGenerator" Version="1.1.0-alpha.8" PrivateAssets="all" />-->
   </ItemGroup>
 
 	<ItemGroup>

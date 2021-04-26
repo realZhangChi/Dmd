@@ -1,14 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
 using Dmd.CodeGenerator.CodeBuilders;
-using Dmd.SourceOptions;
+using Dmd.CodeGenerator.Options;
 
 namespace Dmd.CodeGenerator.Generators
 {
-    public class CodeGenerator : ICodeGenerator
+    public class CodeGenerator
     {
         private readonly IndentedCodeBuilder _codeBuilder;
 
@@ -17,22 +14,24 @@ namespace Dmd.CodeGenerator.Generators
             _codeBuilder = new IndentedCodeBuilder();
         }
 
-        public string Generate(SourceOption options)
+        public string Generate(ICollection<SourceOption> options)
         {
-            GenerateImports(options);
-
-            _codeBuilder.AppendLine($"namespace {options.Namespace}");
-            _codeBuilder.AppendLine("{");
-
-            using (_codeBuilder.Indent())
+            foreach (var option in options)
             {
-                GenerateMainCode(options);
+                _codeBuilder.AppendLine($"namespace {option.Namespace}");
+                _codeBuilder.AppendLine("{");
+
+                using (_codeBuilder.Indent())
+                {
+                    GenerateImports(option);
+                    GenerateMainCode(option);
+                }
+
+                _codeBuilder.AppendLine("}");
+                _codeBuilder.AppendLine();
             }
 
-            _codeBuilder.AppendLine("}");
-            var content = _codeBuilder.ToString();
-
-            return content;
+            return _codeBuilder.ToString();
         }
 
         private void GenerateImports(SourceOption options)
