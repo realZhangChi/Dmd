@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml;
@@ -60,7 +61,6 @@ namespace Dmd.Designer.Services.Solution
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
-            await GetProjectAsync(_directoryTree);
 
             // TODO: Better way to set dmd.props
             //using var scope = _scopeFactory.CreateScope();
@@ -68,6 +68,7 @@ namespace Dmd.Designer.Services.Solution
             //await mediator.Publish(new SolutionOpenedEvent());
             await SetDmdPropsAsync(jsRuntime);
 
+            await GetProjectAsync(_directoryTree, jsRuntime);
         }
 
         public bool IsInProject(string absolutePath)
@@ -75,10 +76,10 @@ namespace Dmd.Designer.Services.Solution
             return !absolutePath.EndsWith(".csproj") && _projects.Select(p => p.Directory).Any(absolutePath.StartsWith);
         }
 
-        public Task<string> GetProjectDirectoryAsync(string path)
+        public Task<string> GetProjectFullPathAsync(string path)
         {
             var project = _projects.FirstOrDefault(p => path.StartsWith(p.Directory));
-            return Task.FromResult(project?.Directory);
+            return Task.FromResult(project?.FullPath);
         }
 
         // The IJSRuntime parameter is passed in because it reports a JavaScript interop calls error
@@ -138,7 +139,7 @@ namespace Dmd.Designer.Services.Solution
             return nameSpace;
         }
 
-        private async Task GetProjectAsync(ICollection<FileModel> model)
+        private async Task GetProjectAsync(ICollection<FileModel> model, IJSRuntime jsRuntime)
         {
             if (model == null || model.Count == 0)
                 return;
@@ -159,7 +160,7 @@ namespace Dmd.Designer.Services.Solution
 
             foreach (var fileModel in model)
             {
-                await GetProjectAsync(fileModel.Children);
+                await GetProjectAsync(fileModel.Children, jsRuntime);
             }
         }
 
@@ -182,11 +183,11 @@ namespace Dmd.Designer.Services.Solution
 		</ItemGroup>
 	</Target>
 </Project>";
-            var scope = _scopeFactory.CreateScope();
+            using var scope = _scopeFactory.CreateScope();
             var fileService = scope.ServiceProvider.GetRequiredService<IFileService>();
             await fileService.SaveAsync(_solution.Directory, dmdPropsName, dmdPropsContent, jsRuntime);
         }
-
+        
         private ValueTask<IJSObjectReference> GetJsObjectReferenceAsync(IJSRuntime jsRuntime)
         {
             return jsRuntime.InvokeAsync<IJSObjectReference>(

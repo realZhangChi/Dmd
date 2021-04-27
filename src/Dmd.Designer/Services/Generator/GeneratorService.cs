@@ -59,10 +59,10 @@ namespace Dmd.Designer.Services.Generator
             if (entities is { Count: > 0 })
             {
                 var groups = entities
-                    .GroupBy(e => e.ProjectDirectory);
+                    .GroupBy(e => e.ProjectFullPath);
                 foreach (var group in groups)
                 {
-                    await _fileService.SaveAsync(group.Key + "\\dmd", "entity.json",
+                    await _fileService.SaveAsync(Path.GetDirectoryName(group.Key) + "\\dmd", "entity.json",
                         JsonSerializer.Serialize(group.ToList(), _jsonSerializerOptions));
                 }
             }

@@ -67,7 +67,6 @@ namespace Dmd.Designer.Pages.Designer
                 _dmdCanvasContext = _dmdCanvasComponent.Context();
 
                 await SolutionManager.SetSolutionPathAsync(JsRuntime, SolutionPath);
-                Logger.LogInformation(JsonSerializer.Serialize(SolutionManager));
 
                 StateHasChanged();
             }
@@ -87,7 +86,7 @@ namespace Dmd.Designer.Pages.Designer
             {
                 EntityModel = new EntityModel(
                     path, 
-                    await SolutionManager.GetProjectDirectoryAsync(path),
+                    await SolutionManager.GetProjectFullPathAsync(path),
                     await SolutionManager.GetNameSpaceAsync(JsRuntime, path))
                 {
                     Properties = new List<PropertyModel>() { new() }

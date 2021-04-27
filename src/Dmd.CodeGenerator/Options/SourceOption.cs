@@ -8,7 +8,7 @@ namespace Dmd.CodeGenerator.Options
 
         public string Namespace { get; set; }
 
-        public string ProjectDirectory { get; set; }
+        public string ProjectFullPath { get; set; }
 
         public string Directory { get; set; }
 

@@ -17,11 +17,11 @@ namespace Dmd.Designer.Models
 
         public EntityModel(
             string directory,
-            string projectDirectory,
+            string projectFullPath,
             string nameSpace)
         {
             Directory = directory;
-            ProjectDirectory = projectDirectory;
+            ProjectFullPath = projectFullPath;
             Namespace = nameSpace;
         }
     }

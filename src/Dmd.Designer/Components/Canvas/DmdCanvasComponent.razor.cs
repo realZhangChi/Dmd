@@ -52,8 +52,7 @@ namespace Dmd.Designer.Components.Canvas
                 await js.InvokeVoidAsync("init", Id);
 
                 var json = await CanvasService.GetJsonAsync();
-
-                Logger.LogInformation(json);
+                
                 if (json is { Length: > 0 })
                 {
                     await js.InvokeVoidAsync("loadFromJSON", json);

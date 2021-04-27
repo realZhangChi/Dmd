@@ -15,7 +15,7 @@ namespace Dmd.Designer.Services.Solution
 
         bool IsInProject(string absolutePath);
 
-        Task<string> GetProjectDirectoryAsync(string path);
+        Task<string> GetProjectFullPathAsync(string path);
 
         Task<string> GetNameSpaceAsync(IJSRuntime jsRuntime, string path);
     }
