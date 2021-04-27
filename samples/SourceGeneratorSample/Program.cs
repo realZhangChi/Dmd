@@ -6,7 +6,7 @@ namespace SourceGeneratorSample
     {
         static void Main(string[] args)
         {
-            Acme.BookStore.Person
+            //Acme.BookStore.Person
             //SourceGeneratorSample.Test
             //Test
             //HelloWorldGenerate
