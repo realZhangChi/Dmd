@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <PackageVersion>1.1.0-alpha.11</PackageVersion>
+  </PropertyGroup>
+</Project>

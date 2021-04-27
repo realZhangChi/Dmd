@@ -7,7 +7,7 @@ namespace Dmd.CodeGenerator.CodeBuilders
     {
         private const string IndentString = "    ";
 
-        private readonly StringBuilder _stringBuilder;
+        private StringBuilder _stringBuilder;
 
         private int _indent;
 
@@ -36,7 +36,7 @@ namespace Dmd.CodeGenerator.CodeBuilders
             _stringBuilder.Remove(startIndex, length);
             return this;
         }
-        
+
         private IndentedCodeBuilder IncrementIndent()
         {
             _indent++;
@@ -51,7 +51,9 @@ namespace Dmd.CodeGenerator.CodeBuilders
 
         public override string ToString()
         {
-            return _stringBuilder.ToString();
+            var code = _stringBuilder.ToString();
+            _stringBuilder.Clear();
+            return code;
         }
 
         public IDisposable Indent()

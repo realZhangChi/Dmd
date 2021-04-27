@@ -19,6 +19,7 @@ using Dmd.Designer.Services;
 using Dmd.Designer.Services.Canvas;
 using Dmd.Designer.Services.File;
 using Dmd.Designer.Services.Generator;
+using Dmd.Designer.Services.Project;
 using Dmd.Designer.Services.Solution;
 using ElectronNET.API.Entities;
 using MediatR;
@@ -48,6 +49,7 @@ namespace Dmd.Designer
             services.AddTransient<ICanvasService, CanvasService>();
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IGeneratorService, GeneratorService>();
+            services.AddTransient<IProjectService, ProjectService>();
             services.AddBlazorContextMenu();
             services.AddBlazorise(options =>
                {

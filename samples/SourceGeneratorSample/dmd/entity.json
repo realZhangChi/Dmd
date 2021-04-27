@@ -1,1 +1,62 @@
-[{"properties":[{"accessLevel":"public","type":"string","name":"Name","getAccessLevel":null,"setAccessLevel":null,"attributes":[]}],"imports":[],"namespace":"SourceGeneratorSample","projectDirectory":"C:\\Users\\Chi\\source\\repos\\Dmd\\samples\\SourceGeneratorSample","directory":"C:\\Users\\Chi\\source\\repos\\Dmd\\samples\\SourceGeneratorSample","name":"Test","baseClass":null,"baseInterfaces":[],"codeType":0}]
+[
+  {
+    "properties": [
+      {
+        "accessLevel": "public",
+        "type": "string",
+        "name": "Name",
+        "getAccessLevel": null,
+        "setAccessLevel": null,
+        "attributes": []
+      }
+    ],
+    "imports": [],
+    "namespace": "Acme.BookStore",
+    "projectDirectory": "C:\\Users\\Chi\\source\\repos\\Acme.BookStore\\aspnet-core\\src\\Acme.BookStore.Domain",
+    "directory": "C:\\Users\\Chi\\source\\repos\\Acme.BookStore\\aspnet-core\\src\\Acme.BookStore.Domain",
+    "name": "Person",
+    "baseClass": null,
+    "baseInterfaces": [],
+    "codeType": 0
+  },
+  {
+    "properties": [
+      {
+        "accessLevel": "public",
+        "type": "string",
+        "name": "Age",
+        "getAccessLevel": null,
+        "setAccessLevel": null,
+        "attributes": []
+      }
+    ],
+    "imports": [],
+    "namespace": "Acme.BookStore",
+    "projectDirectory": "C:\\Users\\Chi\\source\\repos\\Acme.BookStore\\aspnet-core\\src\\Acme.BookStore.Domain",
+    "directory": "C:\\Users\\Chi\\source\\repos\\Acme.BookStore\\aspnet-core\\src\\Acme.BookStore.Domain",
+    "name": "User",
+    "baseClass": null,
+    "baseInterfaces": [],
+    "codeType": 0
+  },
+  {
+    "properties": [
+      {
+        "accessLevel": "public",
+        "type": "string",
+        "name": "Sex",
+        "getAccessLevel": null,
+        "setAccessLevel": null,
+        "attributes": []
+      }
+    ],
+    "imports": [],
+    "namespace": "Acme.BookStore",
+    "projectDirectory": "C:\\Users\\Chi\\source\\repos\\Acme.BookStore\\aspnet-core\\src\\Acme.BookStore.Domain",
+    "directory": "C:\\Users\\Chi\\source\\repos\\Acme.BookStore\\aspnet-core\\src\\Acme.BookStore.Domain",
+    "name": "Man",
+    "baseClass": null,
+    "baseInterfaces": [],
+    "codeType": 0
+  }
+]

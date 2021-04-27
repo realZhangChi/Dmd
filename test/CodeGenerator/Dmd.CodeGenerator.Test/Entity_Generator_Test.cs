@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
-using Dmd.SourceOptions;
+using Dmd.CodeGenerator.Options;
 using Shouldly;
 using Xunit;
 

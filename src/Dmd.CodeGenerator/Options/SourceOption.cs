@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace Dmd.SourceOptions
+namespace Dmd.CodeGenerator.Options
 {
-    public abstract class SourceOption
+    public class SourceOption
     {
         public ICollection<string> Imports { get; set; }
 
         public string Namespace { get; set; }
-        
+
         public string ProjectFullPath { get; set; }
 
         public string Directory { get; set; }
